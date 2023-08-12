@@ -86,3 +86,13 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+-- call inline-fold based on filetypes
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = { "*.html", "*.tsx" },
+  callback = function(_)
+    if not require("inline-fold.module").isHidden then
+      vim.cmd("InlineFoldToggle")
+    end
+  end,
+})

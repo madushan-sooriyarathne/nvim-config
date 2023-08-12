@@ -112,7 +112,7 @@ function M.setup(opts)
   })
 end
 
----@param name "autocmds" | "options" | "keymaps"
+---@param name "autocmds" | "options" | "keymaps" | "snippets"
 function M.load(name)
   local Util = require("lazy.core.util")
   local function _load(mod)
@@ -151,6 +151,7 @@ function M.init()
 
     local Plugin = require("lazy.core.plugin")
     local add = Plugin.Spec.add
+    ---@diagnostic disable-next-line: duplicate-set-field
     Plugin.Spec.add = function(self, plugin, ...)
       if type(plugin) == "table" and M.renames[plugin[1]] then
         plugin[1] = M.renames[plugin[1]]

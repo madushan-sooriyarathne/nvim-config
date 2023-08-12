@@ -22,6 +22,7 @@ require("lazy").setup({
     { import = "madushan.plugins.extras.lang.docker" },
     { import = "madushan.plugins.extras.lang.json" },
     { import = "madushan.plugins.extras.lang.tailwind" },
+    { import = "madushan.plugins.extras.lang.styled-components" },
     { import = "madushan.plugins.extras.lang.typescript" },
     { import = "madushan.plugins.extras.lang.yaml" },
     { import = "madushan.plugins.extras.util.mini-hipatterns" },

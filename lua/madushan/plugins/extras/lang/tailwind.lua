@@ -32,4 +32,34 @@ return {
       end
     end,
   },
+
+  -- tailwind class sorter
+  {
+    "laytan/tailwind-sorter.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim" },
+    build = "cd formatter && npm i && npm run build",
+    opts = {
+      on_save_enabled = true,
+    },
+    config = true,
+  },
+
+  -- inline style string fold
+  {
+    "malbertzard/inline-fold.nvim",
+
+    opts = {
+      defaultPlaceholder = "…",
+      queries = {
+        html = {
+          { pattern = 'class="([^"]*)"', placeholder = "@" },
+          -- { pattern = 'href="(.-)"' }, -- hrefs in html
+          -- { pattern = 'src="(.-)"' }, -- HTML img src attribute
+        },
+        tsx = {
+          { pattern = 'className="([^"]*)"', placeholder = "@" },
+        },
+      },
+    },
+  },
 }

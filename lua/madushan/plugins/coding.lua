@@ -10,6 +10,8 @@ return {
       "rafamadriz/friendly-snippets",
       config = function()
         require("luasnip.loaders.from_vscode").lazy_load()
+        -- custom snippets
+        require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets/typescript/" } })
       end,
     },
     opts = {
