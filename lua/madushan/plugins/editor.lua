@@ -551,4 +551,9 @@ return {
       })
     end,
   },
+  { "petertriho/nvim-scrollbar", version = "*", config = true },
+  {
+    "smjonas/inc-rename.nvim",
+    config = true,
+  },
 }

@@ -44,7 +44,7 @@ function M.get()
         end,
         desc = "Source Action",
         has = "codeAction",
-      }
+      },
     }
     if require("madushan.core.util").has("inc-rename.nvim") then
       M._keys[#M._keys + 1] = {
@@ -57,8 +57,18 @@ function M.get()
         desc = "Rename",
         has = "rename",
       }
+      M._keys[#M._keys + 1] = {
+        "<F2>",
+        function()
+          return ":IncRename " .. vim.fn.expand("<cword>")
+        end,
+        expr = true,
+        desc = "Rename",
+        has = "rename",
+      }
     else
       M._keys[#M._keys + 1] = { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", has = "rename" }
+      M._keys[#M._keys + 1] = { "<F2>", vim.lsp.buf.rename, desc = "Rename Word under the cursor", has = "rename" }
     end
   end
   return M._keys

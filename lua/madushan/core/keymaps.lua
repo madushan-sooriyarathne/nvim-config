@@ -20,6 +20,7 @@ local set_keymap = vim.api.nvim_set_keymap
 
 set_keymap("i", "jk", "<ESC>", { noremap = true, silent = true })
 set_keymap("i", "kj", "<ESC>", { noremap = true, silent = true })
+set_keymap("n", "x", '"_x', { noremap = true, silent = true })
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
