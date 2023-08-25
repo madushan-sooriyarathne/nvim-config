@@ -530,4 +530,7 @@ return {
 
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
+
+  -- integration with tmux
+  { "christoomey/vim-tmux-navigator", lazy = false, config = true },
 }
