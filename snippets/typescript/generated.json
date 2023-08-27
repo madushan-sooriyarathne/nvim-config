@@ -1739,5 +1739,63 @@
     "prefix": "tpf",
     "body": ["typeof ${1:first}"],
     "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "React Functional Component": {
+    "prefix": "react fc",
+    "body": [
+      "const ${1:name} : React.FC = (): JSX.Element => {",
+      "\treturn ${2:<div></div>}",
+      "}",
+      "",
+      "export { $1 };",
+      "$0"
+    ]
+  },
+
+  "React functional component with props": {
+    "prefix": "react fc props",
+    "body": [
+      "interface Props {",
+      "\t$1",
+      "}",
+      "",
+      "const ${2:name} : React.FC<Props> = ({${3:props}}: Props): JSX.Element => {",
+      "\treturn ${4:<div></div>}",
+      "}",
+      "",
+      "export { $2 };",
+      "$0"
+    ]
+  },
+
+  "NextPage component with props": {
+    "prefix": "nextpage props",
+    "body": [
+      "import { NextPage } from \"next\";",
+      "",
+      "interface Props {",
+      "\t$1",
+      "}",
+      "",
+      "const ${2:name} : NextPage<Props> = ({${3:props}}: Props): JSX.Element => {",
+      "\treturn ${4:<div></div>}",
+      "}",
+      "",
+      "export default $2;",
+      "$0"
+    ]
+  },
+  "NextPage": {
+    "prefix": "nextpage",
+    "body": [
+      "import { NextPage } from \"next\";",
+      "",
+      "const ${1:name} : NextPage = (): JSX.Element => {",
+      "\treturn ${2:<div></div>}",
+      "}",
+      "",
+      "export default $1;",
+      "$0"
+    ]
   }
 }

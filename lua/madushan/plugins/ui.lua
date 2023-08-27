@@ -532,5 +532,5 @@ return {
   { "MunifTanjim/nui.nvim", lazy = true },
 
   -- integration with tmux
-  { "christoomey/vim-tmux-navigator", lazy = false, config = true },
+  { "christoomey/vim-tmux-navigator", lazy = false },
 }
