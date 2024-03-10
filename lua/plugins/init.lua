@@ -1,4 +1,33 @@
 return {
+
+	--lsp
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			{
+				"williamboman/mason.nvim",
+			},
+			{
+				"williamboman/mason-lspconfig.nvim",
+			},
+			{
+				"hrsh7th/cmp-nvim-lsp",
+			},
+			-- typescript
+			"jose-elias-alvarez/typescript.nvim",
+			-- json and yaml
+			{
+				"b0o/SchemaStore.nvim",
+				version = false, -- last release is way too old
+			},
+		},
+		config = function()
+			require("nvchad.configs.lspconfig").defaults()
+			require("configs.lsp")
+		end,
+	},
+
+	-- formatting
 	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
@@ -8,214 +37,6 @@ return {
 		---@diagnostic disable-next-line: different-requires
 		keys = require("configs.conform").keys,
 	},
-
-	-- lsp config
-	-- {
-	-- 	"neovim/nvim-lspconfig",
-	-- 	event = { "BufReadPre", "BufNewFile" },
-	-- 	dependencies = {
-	-- 		{ "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
-	-- 		{ "folke/neodev.nvim", opts = {} },
-	-- 		"mason.nvim",
-	-- 		"williamboman/mason-lspconfig.nvim",
-	-- 		{
-	-- 			"hrsh7th/cmp-nvim-lsp",
-	-- 			cond = function()
-	-- 				return require("utils").has("nvim-cmp")
-	-- 			end,
-	-- 		},
-	-- 		-- typescript
-	-- 		"jose-elias-alvarez/typescript.nvim",
-	-- 		-- json and yaml
-	-- 		{
-	-- 			"b0o/SchemaStore.nvim",
-	-- 			version = false, -- last release is way too old
-	-- 		},
-	-- 	},
-	--
-	-- 	---@class PluginLspOpts
-	-- 	opts = {
-	-- 		-- options for vim.diagnostic.config()
-	-- 		diagnostics = {
-	-- 			underline = true,
-	-- 			update_in_insert = false,
-	-- 			virtual_text = {
-	-- 				spacing = 4,
-	-- 				source = "if_many",
-	-- 				prefix = "●",
-	-- 			},
-	-- 			severity_sort = true,
-	-- 		},
-	-- 		inlay_hints = {
-	-- 			enabled = false,
-	-- 		},
-	-- 		-- global capabilities
-	-- 		capabilities = {},
-	-- 		-- Automatically format on save
-	-- 		autoformat = true,
-	-- 		format_notify = false,
-	-- 		format = {
-	-- 			formatting_options = nil,
-	-- 			timeout_ms = nil,
-	-- 		},
-	-- 		servers = {
-	-- 			eslint = {
-	-- 				settings = {
-	-- 					workingDirectory = { mode = "auto" },
-	-- 				},
-	-- 			},
-	--
-	-- 			lua_ls = {
-	-- 				settings = {
-	-- 					Lua = {
-	-- 						workspace = {
-	-- 							checkThirdParty = false,
-	-- 						},
-	-- 						completion = {
-	-- 							callSnippet = "Replace",
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 			},
-	--
-	-- 			tsserver = {
-	-- 				keys = {
-	-- 					{ "<leader>co", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
-	-- 					{ "<leader>cR", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" },
-	-- 				},
-	-- 				settings = {
-	-- 					typescript = {
-	-- 						format = {
-	-- 							indentSize = vim.o.shiftwidth,
-	-- 							convertTabsToSpaces = vim.o.expandtab,
-	-- 							tabSize = vim.o.tabstop,
-	-- 						},
-	-- 					},
-	-- 					javascript = {
-	-- 						format = {
-	-- 							indentSize = vim.o.shiftwidth,
-	-- 							convertTabsToSpaces = vim.o.expandtab,
-	-- 							tabSize = vim.o.tabstop,
-	-- 						},
-	-- 					},
-	-- 					completions = {
-	-- 						completeFunctionCalls = true,
-	-- 					},
-	-- 				},
-	-- 			},
-	--
-	-- 			tailwindcss = {
-	-- 				filetypes_exclude = { "markdown" },
-	-- 			},
-	--
-	-- 			-- docker files
-	-- 			dockerls = {},
-	-- 			docker_compose_language_service = {},
-	--
-	-- 			-- json
-	-- 			jsonls = {
-	-- 				-- lazy-load schemastore when needed
-	-- 				on_new_config = function(new_config)
-	-- 					new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-	-- 					vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-	-- 				end,
-	-- 				settings = {
-	-- 					json = {
-	-- 						format = {
-	-- 							enable = true,
-	-- 						},
-	-- 						validate = { enable = true },
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 			-- yaml
-	-- 			yamlls = {
-	-- 				-- Have to add this for yamlls to understand that we support line folding
-	-- 				capabilities = {
-	-- 					textDocument = {
-	-- 						foldingRange = {
-	-- 							dynamicRegistration = false,
-	-- 							lineFoldingOnly = true,
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 				-- lazy-load schemastore when needed
-	-- 				on_new_config = function(new_config)
-	-- 					new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
-	-- 					vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
-	-- 				end,
-	-- 				settings = {
-	-- 					redhat = { telemetry = { enabled = false } },
-	-- 					yaml = {
-	-- 						keyOrdering = false,
-	-- 						format = {
-	-- 							enable = true,
-	-- 						},
-	-- 						validate = true,
-	-- 						schemaStore = {
-	-- 							-- Must disable built-in schemaStore support to use
-	-- 							-- schemas from SchemaStore.nvim plugin
-	-- 							enable = false,
-	-- 							-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-	-- 							url = "",
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 		setup = {
-	-- 			-- eslint
-	-- 			eslint = function()
-	-- 				vim.api.nvim_create_autocmd("BufWritePre", {
-	-- 					callback = function(event)
-	-- 						local client = vim.lsp.get_active_clients({ bufnr = event.buf, name = "eslint" })[1]
-	-- 						if client then
-	-- 							local diag = vim.diagnostic.get(
-	-- 								event.buf,
-	-- 								{ namespace = vim.lsp.diagnostic.get_namespace(client.id) }
-	-- 							)
-	-- 							if #diag > 0 then
-	-- 								vim.cmd("EslintFixAll")
-	-- 							end
-	-- 						end
-	-- 					end,
-	-- 				})
-	-- 			end,
-	--
-	-- 			-- typescript
-	-- 			tsserver = function(_, opts)
-	-- 				require("typescript").setup({ server = opts })
-	-- 				return true
-	-- 			end,
-	--
-	-- 			tailwindcss = function(_, opts)
-	-- 				local tw = require("lspconfig.server_configurations.tailwindcss")
-	-- 				--- @param ft string
-	-- 				opts.filetypes = vim.tbl_filter(function(ft)
-	-- 					return not vim.tbl_contains(opts.filetypes_exclude or {}, ft)
-	-- 				end, tw.default_config.filetypes)
-	--
-	-- 				require("lspconfig").tailwindcss.setup({
-	-- 					settings = {
-	-- 						tailwindCSS = {
-	-- 							experimental = {
-	-- 								classRegex = {
-	-- 									{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-	-- 									{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-	-- 								},
-	-- 							},
-	-- 						},
-	-- 					},
-	-- 				})
-	-- 			end,
-	-- 		},
-	-- 	},
-	-- 	---@param opts PluginLspOpts
-	-- 	config = function(_, opts)
-	-- 		local lspconfig = require("custom.configs.lspconfig")
-	-- 		lspconfig.setup(opts)
-	-- 	end,
-	-- },
 
 	-- mason
 	{
@@ -255,6 +76,12 @@ return {
 
 	-- auto add closing tags
 	{ "windwp/nvim-ts-autotag", lazy = false, config = true },
+
+	-- disable whcihkey
+	{
+		"folke/which-key.nvim",
+		enabled = false,
+	},
 
 	-- EDITOR RELATED PLUGINS =======================================================================
 	{
@@ -315,34 +142,25 @@ return {
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		vscode = true,
-		opts = {},
-    -- stylua: ignore
-    keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,       desc = "Flash" },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o",               function() require("flash").remote() end,     desc = "Remote Flash" },
-      {
-        "R",
-        mode = { "o", "x" },
-        function() require("flash").treesitter_search() end,
-        desc =
-        "Treesitter Search"
-      },
-      {
-        "<c-s>",
-        mode = { "c" },
-        function() require("flash").toggle() end,
-        desc =
-        "Toggle Flash Search"
-      },
-    },
+		keys = require("configs.flash").keys,
 	},
 
-	-- Flash Telescope config
+	-- telescope
 	{
 		"nvim-telescope/telescope.nvim",
 		optional = true,
+		dependencies = {
+			"ahmedkhalf/project.nvim",
+			opts = {},
+			event = "VeryLazy",
+			config = function(_, opts)
+				require("project_nvim").setup(opts)
+				require("telescope").load_extension("projects")
+			end,
+		},
 		opts = function(_, opts)
+			local conf = require("nvchad.configs.telescope")
+
 			local flashNvim, flash_status = pcall(require, "falsh.nvim")
 			if not flash_status then
 				return
@@ -370,25 +188,13 @@ return {
 			opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
 				mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } },
 			})
-		end,
-	},
 
-	-- telescope projects
-	{
-		"nvim-telescope/telescope.nvim",
-		optional = true,
-		dependencies = {
-			"ahmedkhalf/project.nvim",
-			opts = {},
-			event = "VeryLazy",
-			config = function(_, opts)
-				require("project_nvim").setup(opts)
-				require("telescope").load_extension("projects")
-			end,
-			keys = {
+			table.insert(conf.defaults.mappings.n, {
 				{ "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
-			},
-		},
+			})
+
+			return conf
+		end,
 	},
 
 	-- folding

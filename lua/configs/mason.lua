@@ -6,18 +6,27 @@ local options = {
 
 		-- web dev stuff
 		"css-lsp",
-		-- "eslint-lsp",
 		"html-lsp",
 		"js-debug-adapter",
 		"prettierd",
 		"svelte-language-server",
 		"tailwindcss-language-server",
 		"typescript-language-server",
-		"css-lsp",
-		"html-lsp",
 		"prettier",
-		-- docker files
-		"hadolint",
+		"json-lsp",
+
+		-- rust
+		"rust-analyzer",
+
+		-- sql
+		"sqlls",
+
+		-- docker
+		"docker-compose-language-service",
+		"dockerfile-language-server",
+
+		--yaml
+		"yaml-language-server",
 	},
 }
 

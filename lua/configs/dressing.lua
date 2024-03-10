@@ -1,5 +1,6 @@
 local M = {}
 
+---@diagnostic disable-next-line: different-requires
 local lazy = require("lazy")
 
 M.init = function()

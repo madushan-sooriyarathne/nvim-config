@@ -55,8 +55,6 @@ map(
 	{ desc = "Close all buffers except unsaved onces" }
 )
 
-map("n", "<leader>fm", "<cmd> :Format <CR>", { desc = "LSP formatting" })
-
 -- inc rename:
 map("n", "<leader>rn", function()
 	return ":IncRename " .. vim.fn.expand("<cword>")
