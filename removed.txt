@@ -1,0 +1,86 @@
+
+-- null-ls
+-- {
+-- 	"jose-elias-alvarez/null-ls.nvim",
+-- 	event = { "BufReadPre", "BufNewFile" },
+-- 	dependencies = { "mason.nvim" },
+-- 	opts = function()
+-- 		local nls = require("null-ls")
+-- 		return {
+-- 			root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
+-- 			sources = {
+-- 				-- nls.builtins.formatting.prettier,
+-- 				nls.builtins.formatting.fish_indent,
+-- 				nls.builtins.diagnostics.fish,
+-- 				-- nls.builtins.formatting.stylua,
+-- 				-- nls.builtins.formatting.shfmt,
+-- 				-- require "typescript.extensions.null-ls.code-actions",
+-- 				-- for docker files
+-- 				nls.builtins.diagnostics.hadolint,
+-- 				-- nls.builtins.diagnostics.flake8,
+-- 			},
+-- 		}
+-- 	end,
+-- },
+
+-- formatter
+-- {
+-- 	"mhartington/formatter.nvim",
+-- 	cmd = { "Format", "FormatWrite" },
+-- 	config = function()
+-- 		require("formatter").setup({
+-- 			logging = true,
+-- 			log_level = vim.log.levels.WARN,
+-- 			filetype = {
+-- 				lua = {
+-- 					require("formatter.filetypes.lua").stylua,
+-- 				},
+--
+-- 				html = {
+-- 					require("formatter.filetypes.html").prettierd,
+-- 				},
+-- 				css = {
+-- 					require("formatter.filetypes.css").prettierd,
+-- 				},
+-- 				javascript = {
+-- 					require("formatter.filetypes.javascript").prettierd,
+-- 				},
+-- 				javascriptreact = {
+-- 					require("formatter.filetypes.javascriptreact").prettierd,
+-- 				},
+-- 				json = {
+-- 					require("formatter.filetypes.javascriptreact").prettierd,
+-- 				},
+-- 				graphql = {
+-- 					require("formatter.filetypes.graphql").prettierd,
+-- 				},
+-- 				svelte = {
+-- 					require("formatter.filetypes.svelte").prettier,
+-- 				},
+--
+-- 				typescript = {
+-- 					require("formatter.filetypes.typescript").prettierd,
+-- 				},
+--
+-- 				typescriptreact = {
+-- 					require("formatter.filetypes.typescriptreact").prettierd,
+-- 				},
+-- 				sql = {
+-- 					require("formatter.filetypes.sql").pgformat,
+-- 				},
+--
+-- 				sh = {
+-- 					require("formatter.filetypes.sh").shfmt,
+-- 				},
+-- 				markdown = {
+-- 					require("formatter.filetypes.markdown").prettierd,
+-- 				},
+--
+-- 				["*"] = {
+-- 					require("formatter.filetypes.any").remove_trailing_whitespace,
+-- 				},
+-- 			},
+-- 		})
+-- 	end,
+-- },
+--
