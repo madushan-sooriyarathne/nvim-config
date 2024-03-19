@@ -8,12 +8,33 @@ local M = {}
 M.override = {
 	Comment = {
 		italic = true,
+		fg = "red",
 	},
 	CursorLine = {
 		bg = "#161a1d",
 	},
-	Visual = {
+	visual = {
 		bg = "#6c757d",
+	},
+	-- spell
+	SpellBad = {
+		undercurl = true,
+		sp = "#e63946",
+	},
+
+	Spelllocal = {
+		undercurl = true,
+		sp = "#e9edc9",
+	},
+
+	SpellCap = {
+		undercurl = true,
+		sp = "#fca311",
+	},
+
+	SpellRare = {
+		undercurl = true,
+		sp = "#8338ec",
 	},
 }
 

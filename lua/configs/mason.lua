@@ -1,33 +1,19 @@
-local options = {
+local M = {}
+
+M.options = {
 	ensure_installed = {
-		-- lua stuff
 		"lua-language-server",
-		"stylua",
-
-		-- web dev stuff
-		"css-lsp",
 		"html-lsp",
-		"js-debug-adapter",
-		"prettierd",
-		"svelte-language-server",
-		"tailwindcss-language-server",
-		"typescript-language-server",
 		"prettier",
-		"json-lsp",
-
-		-- rust
-		"rust-analyzer",
-
-		-- sql
-		"sqlls",
-
-		-- docker
-		"docker-compose-language-service",
-		"dockerfile-language-server",
-
-		--yaml
-		"yaml-language-server",
+		"prettierd",
+		"stylua",
+		"shfmt",
+	},
+	icons = {
+		package_installed = "✓",
+		package_pending = "➜",
+		package_uninstalled = "✗",
 	},
 }
 
-require("mason").setup(options)
+return M

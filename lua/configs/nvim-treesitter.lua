@@ -20,6 +20,9 @@ local options = {
 	indent = {
 		enable = true,
 	},
+	highlight = {
+		enable = true,
+	},
 }
 
 return options

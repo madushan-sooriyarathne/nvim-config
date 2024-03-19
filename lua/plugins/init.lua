@@ -1,30 +1,31 @@
 return {
-
 	--lsp
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{
 				"williamboman/mason.nvim",
+
+				lazy = false,
+				opts = require("configs.mason").options,
 			},
 			{
+
 				"williamboman/mason-lspconfig.nvim",
-			},
-			{
-				"hrsh7th/cmp-nvim-lsp",
-			},
-			-- typescript
-			"jose-elias-alvarez/typescript.nvim",
-			-- json and yaml
-			{
-				"b0o/SchemaStore.nvim",
-				version = false, -- last release is way too old
+				opts = require("configs.mason-lspconfig").options,
+				config = true,
 			},
 		},
 		config = function()
 			require("nvchad.configs.lspconfig").defaults()
 			require("configs.lsp")
 		end,
+	},
+
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
 	},
 
 	-- formatting
@@ -36,14 +37,6 @@ return {
 		opts = require("configs.conform").options,
 		---@diagnostic disable-next-line: different-requires
 		keys = require("configs.conform").keys,
-	},
-
-	-- mason
-	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("configs.mason")
-		end,
 	},
 
 	-- treesiter
@@ -75,12 +68,10 @@ return {
 	},
 
 	-- auto add closing tags
-	{ "windwp/nvim-ts-autotag", lazy = false, config = true },
-
-	-- disable whcihkey
 	{
-		"folke/which-key.nvim",
-		enabled = false,
+		"windwp/nvim-ts-autotag",
+		lazy = false,
+		config = true,
 	},
 
 	-- EDITOR RELATED PLUGINS =======================================================================
@@ -111,10 +102,10 @@ return {
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
-			"<leader>xx",
-			"<leader>xX",
-			"<leader>xL",
-			"<leader>xQ",
+			"<leader>tx",
+			"<leader>tX",
+			"<leader>tL",
+			"<leader>tQ",
 			"[q",
 			"]q",
 		},
@@ -141,7 +132,6 @@ return {
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
-		vscode = true,
 		keys = require("configs.flash").keys,
 	},
 
@@ -157,6 +147,9 @@ return {
 				require("project_nvim").setup(opts)
 				require("telescope").load_extension("projects")
 			end,
+			keys = {
+				{ "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
+			},
 		},
 		opts = function(_, opts)
 			local conf = require("nvchad.configs.telescope")
@@ -189,9 +182,7 @@ return {
 				mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } },
 			})
 
-			table.insert(conf.defaults.mappings.n, {
-				{ "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
-			})
+			-- table.insert(conf.defaults.mappings.n, )
 
 			return conf
 		end,

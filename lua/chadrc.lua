@@ -1,12 +1,13 @@
 local M = {}
-
--- Path to overriding theme and highlights files
-local highlights = require("highlights")
+local hightlights = require("highlights")
 
 M.ui = {
 	theme = "doomchad",
-	hl_override = highlights.override,
-	hl_add = highlights.add,
+	theme_toggle = { "doomchad", "doomchad" },
+
+	hl_override = hightlights.override,
+
+	hl_add = hightlights.add,
 
 	nvdash = {
 		load_on_startup = true,

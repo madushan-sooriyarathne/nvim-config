@@ -15,8 +15,8 @@ map("n", "<leader>b", "")
 map("n", ";", ":", { desc = "CMD enter command mode" })
 
 map("n", "<leader>fm", function()
-	---@diagnostic disable-next-line: different-requires
-	require("conform").format()
+  ---@diagnostic disable-next-line: different-requires
+  require("conform").format()
 end, { desc = "File Format with conform" })
 
 map("i", "jk", "<ESC>", { desc = "Escape insert mode" })
@@ -44,29 +44,29 @@ map("n", "<C-k>", "<cmd>NvimTmuxNavigateUp <CR>", { desc = "Move to top pane" })
 map("n", "C-\\", "<cmd>NvimTmuxNavigateLastActive <CR>", { desc = "Move to last active pane" })
 
 map("n", "<leader>ts", function()
-	print("im being pressed")
+  print("im being pressed")
 end, { desc = "Move to down pane" })
 
 -- close all buffers except unsaved and current one
 map(
-	"n",
-	"<leader>bP",
-	"<cmd>bufdo if (bufnr('%') != bufnr('#')) | bd | endif <CR>",
-	{ desc = "Close all buffers except unsaved onces" }
+  "n",
+  "<leader>bP",
+  "<cmd>bufdo if (bufnr('%') != bufnr('#')) | bd | endif <CR>",
+  { desc = "Close all buffers except unsaved onces" }
 )
 
 -- inc rename:
 map("n", "<leader>rn", function()
-	return ":IncRename " .. vim.fn.expand("<cword>")
+  return ":IncRename " .. vim.fn.expand("<cword>")
 end, { desc = "" })
 
 map("n", "F2", function()
-	return ":IncRename " .. vim.fn.expand("<cword>")
+  return ":IncRename " .. vim.fn.expand("<cword>")
 end, { desc = "" })
 
 -- search and replace entire codebase
 map("n", "<leader>sr", function()
-	require("spectre").open()
+  require("spectre").open()
 end, { desc = "Replace in files (Spectre)" })
 
 -- highlight under cursor
@@ -74,10 +74,10 @@ map("n", "<leader>ui", vim.show_pos, { desc = "Highlight word under cursor" })
 
 -- clear search diff update and redaraw
 map(
-	"n",
-	"<leader>ur",
-	"<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-	{ desc = "Redraw / clear hlsearch / diff update" }
+  "n",
+  "<leader>ur",
+  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+  { desc = "Redraw / clear hlsearch / diff update" }
 )
 
 map("n", "gw", "*N", { desc = "Search word under cursor" })
@@ -94,16 +94,16 @@ map("n", "<leader>fn", "<cmd>enew<CR>", { desc = "New file" })
 
 -- buffer delete
 map("n", "<leader>bd", function()
-	require("mini.bufremove").delete(0, false)
+  require("mini.bufremove").delete(0, false)
 end, { desc = "Delete Buffer" })
 
 map("n", "<leader>bD", function()
-	require("mini.bufremove").delete(0, true)
+  require("mini.bufremove").delete(0, true)
 end, { desc = "Delete Buffer (Force)" })
 
 -- trouble
 map("n", "<leader>tt", function()
-	require("trouble").toggle()
+  require("trouble").toggle()
 end)
 
 map("n", "<leader>tx", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Document Diagnostics (Trouble)" })
@@ -111,36 +111,37 @@ map("n", "<leader>tX", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "
 map("n", "<leader>tL", "<cmd>TroubleToggle loclist<cr>", { desc = "Location List (Trouble)" })
 map("n", "<leader>tQ", "<cmd>TroubleToggle quickfix<cr>", { desc = "Quickfix List (Trouble)" })
 map("n", "[q", function()
-	if require("trouble").is_open() then
-		require("trouble").previous({ skip_groups = true, jump = true })
-	else
-		local ok, err = pcall(vim.cmd.cprev)
-		if not ok then
-			vim.notify(err, vim.log.levels.ERROR)
-		end
-	end
+  if require("trouble").is_open() then
+    require("trouble").previous({ skip_groups = true, jump = true })
+  else
+    local ok, err = pcall(vim.cmd.cprev)
+    if not ok then
+      vim.notify(err, vim.log.levels.ERROR)
+    end
+  end
 end, { desc = "Previous trouble/quickfix item" })
 
 map("n", "]q", function()
-	if require("trouble").is_open() then
-		require("trouble").next({ skip_groups = true, jump = true })
-	else
-		local ok, err = pcall(vim.cmd.cnext)
-		if not ok then
-			vim.notify(err, vim.log.levels.ERROR)
-		end
-	end
+  if require("trouble").is_open() then
+    require("trouble").next({ skip_groups = true, jump = true })
+  else
+    local ok, err = pcall(vim.cmd.cnext)
+    if not ok then
+      vim.notify(err, vim.log.levels.ERROR)
+    end
+  end
 end, { desc = "Next trouble/quickfix item" })
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 
 -- Todo comments
 map("n", "]t", function()
-	---@diagnostic disable-next-line: different-requires
-	require("todo-comments").jump_next()
+  ---@diagnostic disable-next-line: different-requires
+  require("todo-comments").jump_next()
 end, { desc = "Next todo comment" })
 
 map("n", "[t", function()
-	---@diagnostic disable-next-line: different-requires
-	require("todo-comments").jump_prev()
+  ---@diagnostic disable-next-line: different-requires
+  require("todo-comments").jump_prev()
 end, { desc = "Previous todo comment" })
 
 map("n", "<leader>xt", "<cmd>TodoTrouble<cr>", { desc = "Todo (Trouble)" })
@@ -150,6 +151,9 @@ map("n", "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", { desc 
 
 -- Telescope
 map("n", "<leader>fp", "<Cmd>Telescope projects<CR>", { desc = "Telescope Projects" })
+
+-- theme toggle
+map("n", "<leader>up", function() require("base46").toggle_theme() end, { desc = "" })
 
 -- INSERT MODE
 -- move lines
