@@ -75,6 +75,7 @@ return {
 	},
 
 	-- EDITOR RELATED PLUGINS =======================================================================
+	{ "lewis6991/gitsigns.nvim", opts = require("configs.gitsigns").options, config = true },
 	{
 		"stevearc/dressing.nvim",
 		lazy = true,
