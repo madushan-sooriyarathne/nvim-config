@@ -12,6 +12,7 @@ local options = {
 		"json5",
 		"jsonc",
 		"jsdoc",
+		"graphql",
 		"svelte",
 		"markdown",
 		"markdown_inline",
