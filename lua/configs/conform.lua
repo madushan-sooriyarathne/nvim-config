@@ -6,18 +6,20 @@ M.options = {
 	formatters_by_ft = {
 		lua = { "stylua" },
 		python = { "isort", "black" },
-		javascript = { { "prettierd", "prettier" } },
-		html = { { "prettierd", "prettier" } },
-		css = { { "prettierd", "prettier" } },
-		javascriptreact = { { "prettierd", "prettier" } },
-		json = { { "prettierd", "prettier" } },
-		graphql = { { "prettierd", "prettier" } },
-		svlete = { { "prettierd", "prettier" } },
-		typescript = { { "prettierd", "prettier" } },
-		typescriptreact = { { "prettierd", "prettier" } },
-		markdown = { { "prettierd", "prettier" } },
+		javascript = { "prettierd", "prettier" },
+		html = { "prettierd", "prettier" },
+		css = { "prettierd", "prettier" },
+		javascriptreact = { "prettierd", "prettier" },
+		json = { "prettierd", "prettier" },
+		graphql = { "prettierd", "prettier" },
+		svlete = { "prettierd", "prettier" },
+		typescript = { "prettierd", "prettier" },
+		typescriptreact = { "prettierd", "prettier" },
+		markdown = { "prettierd", "prettier" },
 		sql = { "pgformat" },
 		sh = { "shfmt" },
+		xml = { "xmllint" },
+		svg = { "xmllint" },
 	},
 	-- Set up format-on-save
 	format_on_save = { timeout_ms = 500, lsp_fallback = true },
@@ -25,6 +27,10 @@ M.options = {
 	formatters = {
 		shfmt = {
 			prepend_args = { "-i", "2" },
+		},
+		xmllint = {
+			prepend_args = { "--format" },
+			command = "/usr/bin/xmllint",
 		},
 	},
 }
