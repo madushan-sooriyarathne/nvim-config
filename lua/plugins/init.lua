@@ -44,13 +44,6 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		opts = require("configs.nvim-treesitter"),
 	},
-	-- AI code completion with Fitten
-	{
-		"luozhiya/fittencode.nvim",
-		config = function()
-			require("fittencode").setup()
-		end,
-	},
 
 	-- CODING =======================================================================================
 	-- auto pairs
