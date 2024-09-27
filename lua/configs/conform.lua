@@ -13,8 +13,8 @@ M.options = {
 		json = { "prettierd", "prettier" },
 		graphql = { "prettierd", "prettier" },
 		svlete = { "prettierd", "prettier" },
-		typescript = { "prettierd", "prettier" },
-		typescriptreact = { "prettierd", "prettier" },
+		typescript = { "prettierd" },
+		typescriptreact = { "prettierd" },
 		markdown = { "prettierd", "prettier" },
 		sql = { "pgformat" },
 		sh = { "shfmt" },
@@ -22,7 +22,7 @@ M.options = {
 		svg = { "xmllint" },
 	},
 	-- Set up format-on-save
-	format_on_save = { timeout_ms = 500, lsp_fallback = true },
+	format_on_save = { timeout_ms = 2000, lsp_fallback = true },
 	-- Customize formatters
 	formatters = {
 		shfmt = {
