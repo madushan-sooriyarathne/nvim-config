@@ -39,11 +39,26 @@ return {
     keys = require("configs.conform").keys,
   },
 
+<<<<<<< Updated upstream
   -- treesiter
   {
     "nvim-treesitter/nvim-treesitter",
     opts = require("configs.nvim-treesitter"),
   },
+=======
+	-- treesiter
+	{
+		"nvim-treesitter/nvim-treesitter",
+		opts = require("configs.nvim-treesitter"),
+	},
+	-- AI code completion with Fitten
+	{
+		"luozhiya/fittencode.nvim",
+		config = function()
+			require("fittencode").setup()
+		end,
+	},
+>>>>>>> Stashed changes
 
   -- CODING =======================================================================================
   -- auto pairs
@@ -86,6 +101,7 @@ return {
     opts = require("configs.nvim-tree").options,
   },
 
+<<<<<<< Updated upstream
   {
     "malbertzard/inline-fold.nvim",
     opts = require("configs.inline-fold").options,
@@ -123,6 +139,71 @@ return {
     "nvim-pack/nvim-spectre",
     cmd = "Spectre",
     opts = { open_cmd = "noswapfile vnew" },
+=======
+	{
+		"malbertzard/inline-fold.nvim",
+		opts = require("configs.inline-fold").options,
+		config = true,
+		cmd = "InlineFoldToggle",
+		keys = require("configs.inline-fold").keys,
+	},
+	{
+		"yaocccc/nvim-foldsign",
+		lazy = false,
+		opts = require("configs.nvim-foldsign").options,
+		config = true,
+	},
+	-- diagnostic window
+	{
+		"folke/trouble.nvim",
+		cmd = { "TroubleToggle", "Trouble" },
+		opts = { use_diagnostic_signs = true },
+		keys = {
+			{
+				"<leader>tt",
+				"<cmd>Trouble diagnostics toggle<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+			{
+				"<leader>tX",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
+			},
+			{
+				"<leader>ts",
+				"<cmd>Trouble symbols toggle focus=false<cr>",
+				desc = "Symbols (Trouble)",
+			},
+			{
+				"<leader>tl",
+				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+				desc = "LSP Definitions / references / ... (Trouble)",
+			},
+			{
+				"<leader>tL",
+				"<cmd>Trouble loclist toggle<cr>",
+				desc = "Location List (Trouble)",
+			},
+			{
+				"<leader>tQ",
+				"<cmd>Trouble qflist toggle<cr>",
+				desc = "Quickfix List (Trouble)",
+			},
+		},
+	},
+	{
+		"max397574/better-escape.nvim",
+		event = "InsertEnter",
+		config = function()
+			require("better_escape").setup()
+		end,
+	},
+	-- search/replace in multiple files
+	{
+		"nvim-pack/nvim-spectre",
+		cmd = "Spectre",
+		opts = { open_cmd = "noswapfile vnew" },
+>>>>>>> Stashed changes
     -- stylua: ignore
     keys = {
       "<leader>sr"

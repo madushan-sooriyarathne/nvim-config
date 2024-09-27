@@ -99,37 +99,42 @@ map("n", "<leader>bD", function()
 end, { desc = "Delete Buffer (Force)" })
 
 -- trouble
-map("n", "<leader>tt", function()
-	require("trouble").toggle()
-end)
-
-map("n", "<leader>tx", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Document Diagnostics (Trouble)" })
-map("n", "<leader>tX", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Document Diagnostics (Trouble)" })
-map("n", "<leader>tL", "<cmd>TroubleToggle loclist<cr>", { desc = "Location List (Trouble)" })
-map("n", "<leader>tQ", "<cmd>TroubleToggle quickfix<cr>", { desc = "Quickfix List (Trouble)" })
-map("n", "[q", function()
-	if require("trouble").is_open() then
-		require("trouble").previous({ skip_groups = true, jump = true })
-	else
-		local ok, err = pcall(vim.cmd.cprev)
-		if not ok then
-			vim.notify(err, vim.log.levels.ERROR)
-		end
-	end
-end, { desc = "Previous trouble/quickfix item" })
-
-map("n", "]q", function()
-	if require("trouble").is_open() then
-		require("trouble").next({ skip_groups = true, jump = true })
-	else
-		local ok, err = pcall(vim.cmd.cnext)
-		if not ok then
-			vim.notify(err, vim.log.levels.ERROR)
-		end
-	end
-end, { desc = "Next trouble/quickfix item" })
-map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-
+-- map("n", "<leader>tt", function()
+-- 	require("trouble").toggle()
+-- end)
+--
+-- map("n", "<leader>tx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Document Diagnostics (Trouble)" })
+-- map(
+-- 	"n",
+-- 	"<leader>tX",
+-- 	"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+-- 	{ desc = "Diagnostics for current buffer (Trouble)" }
+-- )
+-- map("n", "<leader>tL", "<cmd>TroubleToggle loclist<cr>", { desc = "Location List (Trouble)" })
+-- map("n", "<leader>tQ", "<cmd>TroubleToggle quickfix<cr>", { desc = "Quickfix List (Trouble)" })
+-- map("n", "[q", function()
+-- 	if require("trouble").is_open() then
+-- 		require("trouble").previous({ skip_groups = true, jump = true })
+-- 	else
+-- 		local ok, err = pcall(vim.cmd.cprev)
+-- 		if not ok then
+-- 			vim.notify(err, vim.log.levels.ERROR)
+-- 		end
+-- 	end
+-- end, { desc = "Previous trouble/quickfix item" })
+--
+-- map("n", "]q", function()
+-- 	if require("trouble").is_open() then
+-- 		require("trouble").next({ skip_groups = true, jump = true })
+-- 	else
+-- 		local ok, err = pcall(vim.cmd.cnext)
+-- 		if not ok then
+-- 			vim.notify(err, vim.log.levels.ERROR)
+-- 		end
+-- 	end
+-- end, { desc = "Next trouble/quickfix item" })
+-- map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+--
 -- Todo comments
 map("n", "]t", function()
 	---@diagnostic disable-next-line: different-requires

@@ -19,6 +19,9 @@ vim.opt.colorcolumn = "100"
 vim.opt.foldmethod = "manual"
 vim.opt.spelllang = "en_us"
 vim.opt.spell = true
+vim.opt.wrap = true
+vim.opt.textwidth = 0
+vim.opt.updatetime = 200
 
 vim.cmd([[highlight SpellBad cterm=underline gui=undercurl ctermfg=red guisp=red]])
 -- -- save view on leaving the buffer
@@ -114,12 +117,13 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- wrap and check for spell in text filetypes
 -- vim.api.nvim_create_autocmd("FileType", {
---   group = augroup("wrap_spell"),
---   pattern = { "gitcommit", "markdown" },
---   callback = function()
---     vim.opt_local.wrap = true
---     vim.opt_local.spell = true
---   end,
+-- 	group = augroup("wrap_spell"),
+-- 	pattern = { "gitcommit", "markdown", "typescriptreact" },
+-- 	callback = function()
+-- 		vim.opt_local.wrap = true
+-- 		vim.opt_local.spell = true
+-- 		vim.opt.linebreak = true
+-- 	end,
 -- })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
@@ -133,7 +137,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
 	end,
 })
-
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 	pattern = { "*.html", "*.tsx" },
 	callback = function(_)

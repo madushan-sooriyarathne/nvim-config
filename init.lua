@@ -41,3 +41,20 @@ vim.schedule(function()
 end)
 
 require("setup")
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "typescriptreact", "html", "javascriptreact" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.linebreak = true
+	end,
+})
+--
+-- vim.api.nvim_create_autocmd("BufEnter", {
+-- 	pattern = "*.tsx",
+-- 	callback = function()
+-- 		vim.opt_local.wrap = true
+-- 		vim.opt_local.linebreak = true
+-- 	end,
+-- })
+--
