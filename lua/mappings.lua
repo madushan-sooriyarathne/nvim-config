@@ -133,7 +133,7 @@ end, { desc = "Delete Buffer (Force)" })
 -- 		end
 -- 	end
 -- end, { desc = "Next trouble/quickfix item" })
--- map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 --
 -- Todo comments
 map("n", "]t", function()
