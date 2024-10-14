@@ -8,7 +8,7 @@ local highlights = require "highlights"
 local M = {}
 
 M.base46 = {
-  theme = "kanagawa",
+  theme = "onedark",
   theme_toggle = { "onedark", "kanagawa" },
 
   hl_override = highlights.override,
@@ -20,6 +20,7 @@ M.ui = {
     cmd = true,
     pkgs = {
       "lua-language-server",
+      "eslint-lsp",
       "html-lsp",
       "prettier",
       "prettierd",
@@ -33,8 +34,6 @@ M.ui = {
       "tailwindcss",
       "ts_ls",
       "jsonls",
-      "eslint",
-
       -- rust
       "rust_analyzer",
 
