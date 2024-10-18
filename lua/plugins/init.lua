@@ -88,15 +88,8 @@ return {
   {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
-    opts = { use_diagnostic_signs = true },
-    keys = {
-      "<leader>tx",
-      "<leader>tX",
-      "<leader>tL",
-      "<leader>tQ",
-      "[q",
-      "]q",
-    },
+    opts = require("configs.trouble").options,
+    keys = require("configs.trouble").keys,
   },
   {
     "max397574/better-escape.nvim",
