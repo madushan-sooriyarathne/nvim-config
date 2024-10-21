@@ -12,6 +12,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 local servers = {
   "eslint",
   "html",
+  "denols",
   "cssls",
   "clangd",
   "dockerls",
@@ -38,7 +39,7 @@ end
 
 -- Individual Server configuration
 -- Rust
-require("lspconfig").rust_analyzer.setup {
+lspconfig.rust_analyzer.setup {
   settings = {
     ["rust-analyzer"] = {
       diagnostics = {
@@ -48,8 +49,19 @@ require("lspconfig").rust_analyzer.setup {
   },
 }
 
+lspconfig.denols.setup {
+  on_attach = on_attach,
+  root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+}
+
+lspconfig.ts_ls.setup {
+  on_attach = on_attach,
+  root_dir = lspconfig.util.root_pattern "package.json",
+  single_file_support = false,
+}
+
 -- eslint
-require("lspconfig").eslint.setup {
+lspconfig.eslint.setup {
   settings = {
     workingDirectory = { mode = "auto" },
   },
@@ -69,7 +81,7 @@ require("lspconfig").eslint.setup {
 }
 
 -- tailwind
-require("lspconfig").tailwindcss.setup {
+lspconfig.tailwindcss.setup {
   settings = {
     filetypes_exclude = { "markdown" },
     tailwindCSS = {
@@ -84,7 +96,7 @@ require("lspconfig").tailwindcss.setup {
 }
 
 --json
-require("lspconfig").jsonls.setup {
+lspconfig.jsonls.setup {
   settings = {
     json = {
       format = {
@@ -95,7 +107,7 @@ require("lspconfig").jsonls.setup {
   },
 }
 
-require("lspconfig").yamlls.setup {
+lspconfig.yamlls.setup {
 
   -- Have to add this for yamlls to understand that we support line folding
   capabilities = {
