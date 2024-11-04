@@ -7,10 +7,10 @@ local map = vim.keymap.set
 -- disabled keys
 map("n", "<leader>xx", "")
 map("n", "<leader>x", "")
-map("n", "<C-h>", "")
-map("n", "<C-l>", "")
-map("n", "<C-j>", "")
-map("n", "<C-k>", "")
+-- map("n", "<C-h>", "")
+-- map("n", "<C-l>", "")
+-- map("n", "<C-j>", "")
+-- map("n", "<C-k>", "")
 map("n", "<leader>b", "")
 map("n", "s", "")
 
