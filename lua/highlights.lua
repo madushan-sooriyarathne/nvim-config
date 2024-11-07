@@ -40,6 +40,7 @@ M.override = {
 ---@type HLTable
 M.add = {
   NvimTreeOpenedFolderName = { fg = "green", bold = true },
+  CmpItemKindSupermaven = { fg = "#f0a30a" },
 }
 
 return M
