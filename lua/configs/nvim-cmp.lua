@@ -6,6 +6,7 @@ M.options = function(_, opts)
     format_kinds(entry, item) -- add icons
     return require("tailwindcss-colorizer-cmp").formatter(entry, item)
   end
+  opts.sources = vim.list_extend(opts.sources, { { name = "supermaven" } })
 end
 
 return M
