@@ -217,12 +217,20 @@ return {
     keys = require("configs.mini-buffermove").keys,
   },
   {
+    "L3MON4D3/LuaSnip",
+    version = "v2.*",
+    dependencies = { "rafamadriz/friendly-snippets", "saadparwaiz1/cmp_luasnip" },
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
+  },
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       { "roobert/tailwindcss-colorizer-cmp.nvim", config = true },
       { "onsails/lspkind.nvim", config = true },
     },
     opts = require("configs.nvim-cmp").options,
+    config = require("configs.nvim-cmp").config,
   },
 
   -- Utility Plugins

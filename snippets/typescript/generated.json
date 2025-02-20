@@ -1,4 +1,16 @@
 {
+  "className": {
+    "body": ["className=\"${1:class}\""],
+    "key": "className",
+    "prefix": "cn",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "classNameWithCN": {
+    "body": ["className={cn(\"${1:class}\")}"],
+    "key": "classNameWithCN",
+    "prefix": "cncn",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
   "exportType": {
     "body": ["export type ${1:first} = {${2:second}}"],
     "key": "exportType",
