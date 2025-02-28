@@ -162,15 +162,17 @@ return {
     "nvim-telescope/telescope.nvim",
     optional = true,
     dependencies = {
-      "ahmedkhalf/project.nvim",
-      opts = {},
-      event = "VeryLazy",
-      config = function(_, opts)
-        require("project_nvim").setup(opts)
-        require("telescope").load_extension "projects"
-      end,
-      keys = {
-        { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
+      {
+        "ahmedkhalf/project.nvim",
+        opts = {},
+        event = "VeryLazy",
+        config = function(_, opts)
+          require("project_nvim").setup(opts)
+          require("telescope").load_extension "projects"
+        end,
+        keys = {
+          { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
+        },
       },
     },
     opts = require("configs.nvim-telescope").options,
