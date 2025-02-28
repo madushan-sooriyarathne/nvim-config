@@ -1,7 +1,6 @@
 require "nvchad.options"
 
-vim.cmd([[highlight Comment cterm=italic gui=italic ctermfg=gray guifg=gray]])
-
+vim.cmd [[highlight Comment cterm=italic gui=italic ctermfg=gray guifg=gray]]
 
 vim.g.vscode_snippets_path = "./snippets/typescript"
 
@@ -26,4 +25,4 @@ vim.opt.spelllang = "en_us"
 vim.opt.spell = true
 
 local o = vim.o
-o.cursorlineopt ='both' -- to enable cursorline!
+o.cursorlineopt = "both" -- to enable cursorline!

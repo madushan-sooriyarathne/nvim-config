@@ -31,6 +31,24 @@ M.options = function(_, opts)
     mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } },
   })
 
+  -- Get the repository root once at startup
+  local root_dir = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
+  if vim.v.shell_error ~= 0 then
+    -- If not in a git repo, use the current directory
+    root_dir = vim.fn.getcwd()
+  end
+
+  -- setup path configs
+  opts.defaults.cwd = root_dir
+  opts.pickers = {
+    find_files = {
+      cwd = root_dir,
+    },
+    live_grep = {
+      cwd = root_dir,
+    },
+  }
+
   -- table.insert(conf.defaults.mappings.n, )
 
   return conf

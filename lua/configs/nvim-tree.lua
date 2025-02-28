@@ -7,11 +7,19 @@ M.options = {
   git = {
     enable = true,
   },
+  actions = {
+    change_dir = {
+      enable = false,
+      global = false,
+      restrict_above_cwd = true,
+    },
+  },
+  respect_buf_cwd = false,
   sync_root_with_cwd = false,
   update_focused_file = {
-    enable = false,
+    enable = true,
     update_root = {
-      enable = false,
+      enable = true,
       ignore_list = {},
     },
     exclude = false,
