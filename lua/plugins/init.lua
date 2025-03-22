@@ -112,13 +112,6 @@ return {
     "nvim-tree/nvim-tree.lua",
     opts = require("configs.nvim-tree").options,
   },
-
-  {
-    "malbertzard/inline-fold.nvim",
-    opts = require("configs.inline-fold").options,
-    config = true,
-  },
-
   {
     "yaocccc/nvim-foldsign",
     lazy = false,
@@ -240,6 +233,7 @@ return {
   {
     "rmagatti/auto-session",
     lazy = false,
+    keys = require("configs.auto-session").keys,
     opts = require("configs.auto-session").options,
     config = true,
   },

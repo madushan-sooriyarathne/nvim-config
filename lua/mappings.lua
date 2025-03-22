@@ -6,6 +6,7 @@ local map = vim.keymap.set
 
 -- disabled keys
 map("n", "<leader>xx", "")
+map("n", "<leader>wl", "")
 map("n", "<leader>x", "")
 map("n", "<C-h>", "")
 map("n", "<C-l>", "")
@@ -133,6 +134,11 @@ map("n", "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", { desc 
 map("n", "<leader>up", function()
   require("base46").toggle_theme()
 end, { desc = "" })
+
+-- sessions
+map("n", "<leader>wm", "<cmd>SessionSearch<CR>", { desc = "Session search" })
+map("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session" })
+map("n", "<leader>wa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Toggle autosave" })
 
 -- INSERT MODE
 -- move lines
