@@ -91,11 +91,26 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-  pattern = { "*.html", "*.tsx" },
-  callback = function(_)
-    if not require("inline-fold.module").isHidden then
-      vim.cmd "InlineFoldToggle"
+-- Create a global variable to store the initial directory when Neovim starts
+vim.g.initial_open_directory = nil
+
+-- Capture the initial directory when Neovim starts and store it in the global variable
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    -- Check if Neovim was launched with a directory argument
+    local args = vim.v.argv
+    local last_arg = args[#args]
+
+    if last_arg and vim.fn.isdirectory(last_arg) == 1 then
+      -- If the last argument is a directory, save it
+      vim.g.initial_open_directory = last_arg
+    elseif last_arg and vim.fn.filereadable(last_arg) == 1 then
+      -- If the last argument is a file, save its parent directory
+      vim.g.initial_open_directory = vim.fn.fnamemodify(last_arg, ":h")
+    else
+      -- Otherwise, save the current working directory at startup
+      vim.g.initial_open_directory = vim.fn.getcwd()
     end
   end,
+  group = vim.api.nvim_create_augroup("CaptureInitialDirectory", { clear = true }),
 })
