@@ -16,6 +16,7 @@ local options = {
     sh = { "shfmt" },
     xml = { "xmllint" },
     svg = { "xmllint" },
+    go = { "gofmt" },
   },
 
   format_on_save = {

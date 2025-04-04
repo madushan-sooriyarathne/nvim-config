@@ -26,6 +26,7 @@ local servers = {
   "tailwindcss",
   "ts_ls",
   "yamlls",
+  "gopls",
 }
 
 -- lsps with default config
@@ -44,6 +45,22 @@ lspconfig.rust_analyzer.setup {
     ["rust-analyzer"] = {
       diagnostics = {
         enable = false,
+      },
+    },
+  },
+}
+
+lspconfig.gopls.setup {
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  root_dir = lspconfig.util.root_pattern("go.mod", "go.work", ".git"),
+  settings = {
+    gopls = {
+      completeUnimported = true,
+      usePlaceholders = true,
+      staticcheck = true,
+      analyses = {
+        unusedparams = true,
       },
     },
   },
