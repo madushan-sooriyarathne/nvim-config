@@ -1,8 +1,8 @@
 -- load defaults i.e lua_lsp
-require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 local configs = require "nvchad.configs.lspconfig"
 
+configs.defaults()
 local on_attach = configs.on_attach
 local on_init = configs.on_init
 local capabilities = configs.capabilities
@@ -85,7 +85,7 @@ lspconfig.eslint.setup {
   on_attach = function()
     vim.api.nvim_create_autocmd("BufWritePre", {
       callback = function(event)
-        local client = vim.lsp.get_active_clients({ bufnr = event.buf, name = "eslint" })[1]
+        local client = vim.lsp.get_clients({ bufnr = event.buf, name = "eslint" })[1]
         if client then
           local diag = vim.diagnostic.get(event.buf, { namespace = vim.lsp.diagnostic.get_namespace(client.id) })
           if #diag > 0 then

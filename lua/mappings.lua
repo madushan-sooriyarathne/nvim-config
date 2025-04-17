@@ -39,6 +39,9 @@ map("n", "<C-j>", "<cmd>NvimTmuxNavigateDown <CR>", { desc = "Move to down pane"
 map("n", "<C-k>", "<cmd>NvimTmuxNavigateUp <CR>", { desc = "Move to top pane" })
 map("n", "C-\\", "<cmd>NvimTmuxNavigateLastActive <CR>", { desc = "Move to last active pane" })
 
+-- LSP
+map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", { desc = "Open code actions" })
+
 -- close all buffers except unsaved and current one
 map(
   "n",
