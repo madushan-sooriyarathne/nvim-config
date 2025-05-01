@@ -1,15 +1,13 @@
 local M = {}
 
-local function wait(seconds)
-  local start = os.time()
-  while os.time() - start < seconds do
-    -- This loop keeps running until the time has elapsed
-  end
-end
-
 M.options = {
+  enabled = false,
+  root_dir = vim.fn.stdpath "data" .. "/sessions/",
+
   log_level = "error",
   show_auto_restore_notif = true,
+  use_git_branch = true,
+  -- cwd_change_handling = true,
   pre_save_cmds = {
     function()
       -- Check if the initial directory was captured
