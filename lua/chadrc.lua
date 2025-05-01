@@ -8,7 +8,7 @@ local highlights = require "highlights"
 local M = {}
 
 M.base46 = {
-  theme = "onedark",
+  theme = "kanagawa",
   theme_toggle = { "onedark", "kanagawa" },
 
   hl_override = highlights.override,
