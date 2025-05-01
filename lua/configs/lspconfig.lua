@@ -3,10 +3,6 @@ local lspconfig = require "lspconfig"
 local configs = require "nvchad.configs.lspconfig"
 
 configs.defaults()
-<<<<<<< HEAD
-=======
-
->>>>>>> e398559 (disabled auto-session)
 local on_attach = configs.on_attach
 local on_init = configs.on_init
 local capabilities = configs.capabilities
