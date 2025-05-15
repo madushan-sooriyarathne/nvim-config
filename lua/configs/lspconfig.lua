@@ -8,11 +8,10 @@ local on_init = configs.on_init
 local capabilities = configs.capabilities
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- EXAMPLE
 local servers = {
   "eslint",
   "html",
-  "denols",
+  -- "denols",
   "cssls",
   "clangd",
   "dockerls",
@@ -20,37 +19,55 @@ local servers = {
   "jsonls",
   "ltex",
   "postgres_lsp",
-  "rust_analyzer",
+  -- "rust_analyzer",
   "sqlls",
-  "svelte",
+  -- "svelte",
   "tailwindcss",
   "ts_ls",
   "yamlls",
   "gopls",
+  "luals",
 }
+
+-- default setup for all servers
+vim.lsp.config("*", {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+})
+
+vim.lsp.enable(servers)
 
 -- lsps with default config
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    on_init = on_init,
-    capabilities = capabilities,
-  }
-end
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup {
+--     on_attach = on_attach,
+--     on_init = on_init,
+--     capabilities = capabilities,
+--   }
+-- end
 
 -- Individual Server configuration
--- Rust
-lspconfig.rust_analyzer.setup {
-  settings = {
-    ["rust-analyzer"] = {
-      diagnostics = {
-        enable = false,
-      },
-    },
-  },
-}
+-- Lua
+vim.lsp.config("luals", {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_markers = { ".luarc.json", ".luarc.jsonc" },
+})
 
-lspconfig.gopls.setup {
+-- Rust
+-- vim.lsp.config("rust_analyzer", {
+--   settings = {
+--     ["rust-analyzer"] = {
+--       diagnostics = {
+--         enable = false,
+--       },
+--     },
+--   },
+-- })
+
+-- Go
+vim.lsp.config("gopls", {
   cmd = { "gopls" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
   root_dir = lspconfig.util.root_pattern("go.mod", "go.work", ".git"),
@@ -64,21 +81,23 @@ lspconfig.gopls.setup {
       },
     },
   },
-}
+})
 
-lspconfig.denols.setup {
-  on_attach = on_attach,
-  root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-}
+-- Deno
+-- vim.lsp.config("denols", {
+--   on_attach = on_attach,
+--   root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+-- })
 
-lspconfig.ts_ls.setup {
-  on_attach = on_attach,
-  root_dir = lspconfig.util.root_pattern("turbo.json", "package.json"),
-  single_file_support = false,
-}
+-- Typescript
+-- vim.lsp.config("ts_ls", {
+--   on_attach = on_attach,
+--   root_dir = lspconfig.util.root_pattern("turbo.json", "tsconfig.json", "jsconfig.json", "package.json"),
+--   single_file_support = true,
+-- })
 
 -- eslint
-lspconfig.eslint.setup {
+vim.lsp.config("eslint", {
   settings = {
     workingDirectory = { mode = "auto" },
   },
@@ -95,10 +114,10 @@ lspconfig.eslint.setup {
       end,
     })
   end,
-}
+})
 
--- tailwind
-lspconfig.tailwindcss.setup {
+-- tailwindcss
+vim.lsp.config("tailwindcss", {
   settings = {
     filetypes_exclude = { "markdown" },
     tailwindCSS = {
@@ -110,10 +129,10 @@ lspconfig.tailwindcss.setup {
       },
     },
   },
-}
+})
 
---json
-lspconfig.jsonls.setup {
+-- json
+vim.lsp.config("jsonls", {
   settings = {
     json = {
       format = {
@@ -122,9 +141,10 @@ lspconfig.jsonls.setup {
       validate = { enable = true },
     },
   },
-}
+})
 
-lspconfig.yamlls.setup {
+-- yaml
+vim.lsp.config("yamlls", {
 
   -- Have to add this for yamlls to understand that we support line folding
   capabilities = {
@@ -157,4 +177,4 @@ lspconfig.yamlls.setup {
       },
     },
   },
-}
+})

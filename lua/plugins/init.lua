@@ -11,14 +11,15 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
 
         lazy = false,
         opts = require("configs.mason").options,
       },
       {
 
-        "williamboman/mason-lspconfig.nvim",
+        "mason-org/mason-lspconfig.nvim",
+        event = { "VeryLazy", "BufReadPre", "BufNewFile" },
         config = true,
       },
     },
