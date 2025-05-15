@@ -8,7 +8,7 @@ local highlights = require "highlights"
 local M = {}
 
 M.base46 = {
-  theme = "kanagawa",
+  theme = "onedark",
   theme_toggle = { "onedark", "kanagawa" },
 
   hl_override = highlights.override,
@@ -30,12 +30,12 @@ M.ui = {
       -- web dev stuff
       "cssls",
       "html",
-      "svelte",
+      -- "svelte",
       "tailwindcss",
       "ts_ls",
       "jsonls",
       -- rust
-      "rust_analyzer",
+      -- "rust_analyzer",
 
       -- sql
       "sqlls",
