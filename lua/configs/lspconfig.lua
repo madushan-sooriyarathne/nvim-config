@@ -38,16 +38,8 @@ vim.lsp.config("*", {
 
 vim.lsp.enable(servers)
 
--- lsps with default config
--- for _, lsp in ipairs(servers) do
---   lspconfig[lsp].setup {
---     on_attach = on_attach,
---     on_init = on_init,
---     capabilities = capabilities,
---   }
--- end
-
 -- Individual Server configuration
+--
 -- Lua
 vim.lsp.config("luals", {
   cmd = { "lua-language-server" },
@@ -116,11 +108,44 @@ vim.lsp.config("eslint", {
   end,
 })
 
+-- cssls
+vim.lsp.config("cssls", {
+  settings = {
+    css = { validate = true, lint = {
+      unknownAtRules = "ignore",
+    } },
+    scss = { validate = true, lint = {
+      unknownAtRules = "ignore",
+    } },
+    less = { validate = true, lint = {
+      unknownAtRules = "ignore",
+    } },
+  },
+})
+
 -- tailwindcss
 vim.lsp.config("tailwindcss", {
   settings = {
+
     filetypes_exclude = { "markdown" },
     tailwindCSS = {
+      classAttributes = {
+        "class",
+        "className",
+        "class:list",
+        "classList",
+        "ngClass",
+      },
+      lint = {
+        cssConflict = "warning",
+        invalidApply = "error",
+        invalidScreen = "error",
+        invalidVariant = "error",
+        invalidConfigPath = "error",
+        invalidTailwindDirective = "error",
+        recommendedVariantOrder = "warning",
+        unknownAtRules = "ignore",
+      },
       experimental = {
         classRegex = {
           { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
