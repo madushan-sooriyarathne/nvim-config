@@ -114,3 +114,5 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
   group = vim.api.nvim_create_augroup("CaptureInitialDirectory", { clear = true }),
 })
+
+vim.cmd "autocmd BufRead,BufNewFile *.hbs set filetype=html"
