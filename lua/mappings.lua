@@ -87,40 +87,8 @@ map("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Go to next buffer" })
 -- new file
 map("n", "<leader>fn", "<cmd>enew<CR>", { desc = "New file" })
 
--- trouble
--- map("n", "<leader>tt", function()
---   require("trouble").toggle()
--- end)
---
--- map("n", "<leader>tx", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Document Diagnostics (Trouble)" })
--- map("n", "<leader>tX", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Document Diagnostics (Trouble)" })
--- map("n", "<leader>tL", "<cmd>TroubleToggle loclist<cr>", { desc = "Location List (Trouble)" })
--- map("n", "<leader>tQ", "<cmd>TroubleToggle quickfix<cr>", { desc = "Quickfix List (Trouble)" })
--- map("n", "[q", function()
---   if require("trouble").is_open() then
---     require("trouble").previous { skip_groups = true, jump = true }
---   else
---     local ok, err = pcall(vim.cmd.cprev)
---     if not ok then
---       vim.notify(err, vim.log.levels.ERROR)
---     end
---   end
--- end, { desc = "Previous trouble/quickfix item" })
---
--- map("n", "]q", function()
---   if require("trouble").is_open() then
---     require("trouble").next { skip_groups = true, jump = true }
---   else
---     local ok, err = pcall(vim.cmd.cnext)
---     if not ok then
---       vim.notify(err, vim.log.levels.ERROR)
---     end
---   end
--- end, { desc = "Next trouble/quickfix item" })
-
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 
--- Todo comments
 map("n", "]t", function()
   require("todo-comments").jump_next()
 end, { desc = "Next todo comment" })
@@ -136,7 +104,7 @@ map("n", "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", { desc 
 
 map("n", "<leader>up", function()
   require("base46").toggle_theme()
-end, { desc = "" })
+end, { desc = "Toggle theme" })
 
 -- sessions
 map("n", "<leader>wm", "<cmd>SessionSearch<CR>", { desc = "Session search" })
