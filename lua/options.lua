@@ -25,6 +25,14 @@ vim.opt.spelllang = "en_us"
 vim.opt.spell = true
 vim.o.cursorlineopt = "both" -- to enable cursorline!
 
+-- Visual line wrapping (doesn't affect actual file content)
+vim.opt.wrap = true -- Enabled by default, toggle with <leader>uw
+vim.opt.linebreak = true -- Break lines at word boundaries
+vim.opt.breakindent = true -- Preserve indentation when wrapping
+vim.opt.showbreak = "↪ " -- Visual indicator for wrapped lines
+vim.opt.textwidth = 0 -- Don't insert line breaks in text
+vim.opt.wrapmargin = 0 -- Don't wrap based on terminal width margin
+
 vim.api.nvim_create_user_command("ClaudeCode", function(opts)
   -- Change to git root directory
   local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")

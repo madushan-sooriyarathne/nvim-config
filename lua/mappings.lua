@@ -172,6 +172,12 @@ map(
   { desc = "Redraw / clear hlsearch / diff update" }
 )
 
+map("n", "<leader>uw", function()
+  vim.wo.wrap = not vim.wo.wrap
+  local status = vim.wo.wrap and "enabled" or "disabled"
+  print("Line wrapping " .. status)
+end, { desc = "Toggle line wrapping" })
+
 -- Vim-illuminate
 map("n", "]]", function()
   require("illuminate").goto_next_reference(false)
