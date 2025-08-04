@@ -257,13 +257,6 @@ return {
   -- Utility Plugins
   { "nvim-lua/plenary.nvim", lazy = true },
   {
-    "rmagatti/auto-session",
-    lazy = false,
-    keys = require("configs.auto-session").keys,
-    opts = require("configs.auto-session").options,
-    config = true,
-  },
-  {
     "andymass/vim-matchup",
     config = require("configs.vim-matchup").config,
   },
