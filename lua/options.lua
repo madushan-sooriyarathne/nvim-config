@@ -23,6 +23,18 @@ vim.opt.colorcolumn = "100"
 vim.opt.foldmethod = "manual"
 vim.opt.spelllang = "en_us"
 vim.opt.spell = true
+vim.o.cursorlineopt = "both" -- to enable cursorline!
 
-local o = vim.o
-o.cursorlineopt = "both" -- to enable cursorline!
+vim.api.nvim_create_user_command("ClaudeCode", function(opts)
+  -- Change to git root directory
+  local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+  if vim.v.shell_error == 0 and git_root ~= "" then
+    vim.cmd("cd " .. git_root)
+  end
+
+  -- Call the original ClaudeCode command
+  require("claudecode.terminal").simple_toggle({}, opts.args)
+end, {
+  nargs = "*",
+  desc = "Toggle Claude Code terminal from git root",
+})
