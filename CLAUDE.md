@@ -94,6 +94,53 @@ Configured LSP servers include:
 - Custom highlights defined in `lua/highlights.lua`
 - Mason auto-installs LSP servers defined in `chadrc.lua`
 
+## Installed Plugins Reference
+
+This table lists all plugins currently installed in the configuration for quick reference and documentation access:
+
+| Plugin Name | Used for | Docs Link |
+|-------------|----------|-----------|
+| stevearc/conform.nvim | Code formatting with minimal diffs and LSP integration | https://github.com/stevearc/conform.nvim |
+| neovim/nvim-lspconfig | LSP client configurations for Neovim | https://github.com/neovim/nvim-lspconfig |
+| mason-org/mason.nvim | Portable package manager for LSP servers, DAP servers, linters, and formatters | https://github.com/mason-org/mason.nvim |
+| mason-org/mason-lspconfig.nvim | Bridge between mason.nvim and nvim-lspconfig | https://github.com/mason-org/mason-lspconfig.nvim |
+| coder/claudecode.nvim | Claude Code integration for Neovim | https://github.com/coder/claudecode.nvim |
+| pmizio/typescript-tools.nvim | TypeScript integration and tooling | https://github.com/pmizio/typescript-tools.nvim |
+| nvim-treesitter/nvim-treesitter | Syntax highlighting and code parsing | https://github.com/nvim-treesitter/nvim-treesitter |
+| echasnovski/mini.pairs | Automatic pairs (brackets, quotes, etc.) | https://github.com/echasnovski/mini.pairs |
+| echasnovski/mini.surround | Surround text objects with quotes, brackets, etc. | https://github.com/echasnovski/mini.surround |
+| JoosepAlviste/nvim-ts-context-commentstring | Context-aware comment strings using treesitter | https://github.com/JoosepAlviste/nvim-ts-context-commentstring |
+| echasnovski/mini.comment | Smart commenting with treesitter integration | https://github.com/echasnovski/mini.comment |
+| windwp/nvim-ts-autotag | Auto close and rename HTML/XML tags | https://github.com/windwp/nvim-ts-autotag |
+| lewis6991/gitsigns.nvim | Git integration and signs in the gutter | https://github.com/lewis6991/gitsigns.nvim |
+| stevearc/dressing.nvim | Improve default vim.ui interfaces | https://github.com/stevearc/dressing.nvim |
+| nvim-tree/nvim-tree.lua | File explorer tree | https://github.com/nvim-tree/nvim-tree.lua |
+| yaocccc/nvim-foldsign | Custom fold signs and indicators | https://github.com/yaocccc/nvim-foldsign |
+| folke/trouble.nvim | Pretty diagnostics, references, and quickfix lists | https://github.com/folke/trouble.nvim |
+| max397574/better-escape.nvim | Better escape key mapping with no delay | https://github.com/max397574/better-escape.nvim |
+| nvim-pack/nvim-spectre | Search and replace in multiple files | https://github.com/nvim-pack/nvim-spectre |
+| folke/flash.nvim | Navigation with search labels and enhanced motions | https://github.com/folke/flash.nvim |
+| nvim-telescope/telescope.nvim | Fuzzy finder for files, buffers, and more | https://github.com/nvim-telescope/telescope.nvim |
+| ahmedkhalf/project.nvim | Project management and switching | https://github.com/ahmedkhalf/project.nvim |
+| kevinhwang91/nvim-ufo | Modern folding with preview support | https://github.com/kevinhwang91/nvim-ufo |
+| kevinhwang91/promise-async | Async/await style programming in Lua | https://github.com/kevinhwang91/promise-async |
+| folke/todo-comments.nvim | Highlight and search TODO comments | https://github.com/folke/todo-comments.nvim |
+| petertriho/nvim-scrollbar | Scrollbar with diagnostics and search indicators | https://github.com/petertriho/nvim-scrollbar |
+| smjonas/inc-rename.nvim | Incremental LSP rename with live preview | https://github.com/smjonas/inc-rename.nvim |
+| RRethy/vim-illuminate | Highlight other uses of word under cursor | https://github.com/RRethy/vim-illuminate |
+| echasnovski/mini.bufremove | Buffer removal without layout disruption | https://github.com/echasnovski/mini.bufremove |
+| L3MON4D3/LuaSnip | Snippet engine written in Lua | https://github.com/L3MON4D3/LuaSnip |
+| rafamadriz/friendly-snippets | Collection of snippets for various languages | https://github.com/rafamadriz/friendly-snippets |
+| saadparwaiz1/cmp_luasnip | LuaSnip completion source for nvim-cmp | https://github.com/saadparwaiz1/cmp_luasnip |
+| hrsh7th/nvim-cmp | Completion engine with LSP support | https://github.com/hrsh7th/nvim-cmp |
+| roobert/tailwindcss-colorizer-cmp.nvim | Tailwind CSS color preview in completion | https://github.com/roobert/tailwindcss-colorizer-cmp.nvim |
+| onsails/lspkind.nvim | VSCode-like pictograms for LSP completion | https://github.com/onsails/lspkind.nvim |
+| nvim-lua/plenary.nvim | Lua utility functions library | https://github.com/nvim-lua/plenary.nvim |
+| rmagatti/auto-session | Session management with automatic restore | https://github.com/rmagatti/auto-session |
+| andymass/vim-matchup | Extended matching for %, if/endif, etc. | https://github.com/andymass/vim-matchup |
+| alexghergh/nvim-tmux-navigation | Seamless navigation between Neovim and tmux | https://github.com/alexghergh/nvim-tmux-navigation |
+| supermaven-inc/supermaven-nvim | AI-powered code completion | https://github.com/supermaven-inc/supermaven-nvim |
+
 ## Development Tips
 
 ### Adding New Plugins
