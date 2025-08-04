@@ -130,6 +130,12 @@ return {
   -- Editor Related Plugins
   { "lewis6991/gitsigns.nvim", opts = require("configs.gitsigns").options, config = true },
   {
+    "olimorris/persisted.nvim",
+    event = "BufReadPre",
+    opts = require("configs.persisted").options,
+    keys = require("configs.persisted").keys,
+  },
+  {
     "stevearc/dressing.nvim",
     lazy = true,
     init = require("configs.dressing").init,

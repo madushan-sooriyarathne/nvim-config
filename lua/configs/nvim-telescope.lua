@@ -49,7 +49,8 @@ M.options = function(_, opts)
     },
   }
 
-  -- table.insert(conf.defaults.mappings.n, )
+  -- Load persisted telescope extension
+  require("telescope").load_extension "persisted"
 
   return conf
 end

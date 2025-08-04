@@ -127,6 +127,7 @@ This table lists all plugins currently installed in the configuration for quick 
 | echasnovski/mini.comment | Smart commenting with treesitter integration | https://github.com/echasnovski/mini.comment |
 | windwp/nvim-ts-autotag | Auto close and rename HTML/XML tags | https://github.com/windwp/nvim-ts-autotag |
 | lewis6991/gitsigns.nvim | Git integration and signs in the gutter | https://github.com/lewis6991/gitsigns.nvim |
+| olimorris/persisted.nvim | Session management with git branching and Telescope support | https://github.com/olimorris/persisted.nvim |
 | stevearc/dressing.nvim | Improve default vim.ui interfaces | https://github.com/stevearc/dressing.nvim |
 | nvim-tree/nvim-tree.lua | File explorer tree | https://github.com/nvim-tree/nvim-tree.lua |
 | yaocccc/nvim-foldsign | Custom fold signs and indicators | https://github.com/yaocccc/nvim-foldsign |
