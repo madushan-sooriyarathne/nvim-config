@@ -1,13 +1,5 @@
-
 local M = {}
 
-M.keys = {
-	"]t",
-	"[t",
-	"<leader>xt",
-	"<leader>xT",
-	"<leader>st",
-	"<leader>sT",
-}
+M.keys = {}
 
-return M;
+return M
