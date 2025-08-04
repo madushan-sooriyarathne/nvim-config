@@ -32,7 +32,7 @@ M.options = {
 
 M.keys = {
   -- Will use Telescope if installed or a vim.ui.select picker otherwise
-  { "<leader>wl", "<cmd>SessionSearch<CR>", desc = "Session search" },
+  { "<leader>wm", "<cmd>SessionSearch<CR>", desc = "Session search" },
   { "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save session" },
   { "<leader>wa", "<cmd>SessionToggleAutoSave<CR>", desc = "Toggle autosave" },
 }
