@@ -116,3 +116,4 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 vim.cmd "autocmd BufRead,BufNewFile *.hbs set filetype=html"
+
