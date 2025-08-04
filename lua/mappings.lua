@@ -129,6 +129,15 @@ end, { desc = "Rename variable" })
 map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move line down" })
 map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move line up" })
 
+-- Monorepo Management
+map("n", "<leader>m", function()
+  require("telescope").extensions.monorepo.monorepo()
+end, { desc = "Monorepo projects" })
+
+map("n", "<leader>n", function()
+  require("monorepo").toggle_project()
+end, { desc = "Toggle monorepo project" })
+
 -- LSP
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action() <CR>", { desc = "Open code actions popup" })
 

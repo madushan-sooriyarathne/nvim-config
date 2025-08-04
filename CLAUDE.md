@@ -74,7 +74,7 @@ The configuration includes custom ClaudeCode integration that:
 ### Custom Leader Key Patterns
 
 - `<leader>a*` - ClaudeCode/AI operations
-- `<leader>w*` - Session management
+- `<leader>m*` - Monorepo/project management
 - `<leader>s*` - Search operations (telescope, spectre, todos)
 - `<leader>x*` - Trouble/diagnostics
 - `<leader>f*` - File operations
@@ -150,7 +150,7 @@ This table lists all plugins currently installed in the configuration for quick 
 | roobert/tailwindcss-colorizer-cmp.nvim | Tailwind CSS color preview in completion | https://github.com/roobert/tailwindcss-colorizer-cmp.nvim |
 | onsails/lspkind.nvim | VSCode-like pictograms for LSP completion | https://github.com/onsails/lspkind.nvim |
 | nvim-lua/plenary.nvim | Lua utility functions library | https://github.com/nvim-lua/plenary.nvim |
-| rmagatti/auto-session | Session management with automatic restore | https://github.com/rmagatti/auto-session |
+| imNel/monorepo.nvim | Monorepo project management and navigation | https://github.com/imNel/monorepo.nvim |
 | andymass/vim-matchup | Extended matching for %, if/endif, etc. | https://github.com/andymass/vim-matchup |
 | alexghergh/nvim-tmux-navigation | Seamless navigation between Neovim and tmux | https://github.com/alexghergh/nvim-tmux-navigation |
 | supermaven-inc/supermaven-nvim | AI-powered code completion | https://github.com/supermaven-inc/supermaven-nvim |
