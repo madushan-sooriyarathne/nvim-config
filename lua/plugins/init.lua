@@ -193,6 +193,16 @@ return {
           { "<leader>fp", "<Cmd>Telescope projects<CR>", desc = "Projects" },
         },
       },
+      {
+        "imNel/monorepo.nvim",
+        config = function()
+          require("monorepo").setup(require("configs.monorepo").options)
+        end,
+        dependencies = {
+          "nvim-telescope/telescope.nvim",
+          "nvim-lua/plenary.nvim",
+        },
+      },
     },
     opts = require("configs.nvim-telescope").options,
   },
