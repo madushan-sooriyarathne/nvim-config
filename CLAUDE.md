@@ -37,6 +37,20 @@ This is a Neovim configuration built on top of NvChad v2.5. The configuration fo
 - Mappings disable conflicting NvChad defaults before setting custom ones
 - Plugin configs use the pattern: `opts = require("configs.plugin-name").options`
 
+### Autocmds Configuration
+
+The configuration includes several autocmds in `lua/autocmds.lua` for enhanced functionality:
+
+- **Yank Highlighting**: Briefly highlights yanked text for visual feedback
+- **Theme Toggle on Start**: Automatically toggles theme when Neovim starts
+- **Window Resize Handler**: Automatically resizes splits when the window is resized
+- **Last Position Restore**: Returns cursor to last position when reopening files (excludes git commits)
+- **Quick Close with 'q'**: Allows closing special filetypes (help, lspinfo, man, etc.) with 'q' key
+- **Text File Formatting**: Enables word wrap and spell check for markdown and git commit files
+- **Auto Directory Creation**: Automatically creates parent directories when saving files
+- **Handlebars Filetype**: Sets `.hbs` files to use HTML syntax highlighting
+- **Spell Highlighting**: Configures spell check highlighting with underline and red color
+
 ## Common Development Commands
 
 ### Code Formatting

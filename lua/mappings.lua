@@ -28,11 +28,6 @@ map("n", "x", '"_x', { desc = "Delete without coping" })
 map("n", "gw", "*N", { desc = "Search word under cursor" })
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "keywordprg" })
 
--- Auto-session
-map("n", "<leader>wm", "<cmd>SessionSearch<CR>", { desc = "Session search" })
-map("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session" })
-map("n", "<leader>wa", "<cmd>SessionToggleAutoSave<CR>", { desc = "Toggle autosave" })
-
 -- Base46 (Theme)
 map("n", "<leader>up", function()
   require("base46").toggle_theme()

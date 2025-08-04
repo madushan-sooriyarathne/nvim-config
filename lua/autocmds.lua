@@ -1,77 +1,129 @@
-vim.cmd [[highlight SpellBad cterm=underline gui=undercurl ctermfg=red guisp=red]]
+-- ============================================================================
+-- AUTOCMDS CONFIGURATION
+-- ============================================================================
+-- Custom autocmds for enhanced Neovim functionality
+-- Built on top of NvChad v2.5 with modern Lua API usage
 
--- AUTOCMDs
+-- Helper function to create augroups with consistent naming
 local function augroup(name)
   return vim.api.nvim_create_augroup("nvchad_custom-" .. name, { clear = true })
 end
 
+-- ============================================================================
+-- UI & VISUAL ENHANCEMENTS
+-- ============================================================================
+
+-- Highlight yanked text briefly for visual feedback
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup "highlight_yank",
+  desc = "Highlight yanked text briefly for visual feedback",
   callback = function()
     vim.highlight.on_yank()
   end,
 })
 
--- toglle theme on first load
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  group = augroup "toggle-theme",
+-- Toggle theme automatically on Neovim startup
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = augroup "toggle_theme",
+  desc = "Toggle theme on first load to apply custom theme settings",
   callback = function()
     require("base46").toggle_theme()
   end,
 })
 
--- resize splits if window got resized
-vim.api.nvim_create_autocmd({ "VimResized" }, {
+-- ============================================================================
+-- WINDOW & BUFFER MANAGEMENT
+-- ============================================================================
+
+-- Automatically resize splits when window is resized
+vim.api.nvim_create_autocmd("VimResized", {
   group = augroup "resize_splits",
+  desc = "Automatically resize splits when terminal window is resized",
   callback = function()
     vim.cmd "tabdo wincmd ="
   end,
 })
 
--- go to last loc when opening a buffer
+-- Restore cursor to last position when reopening files
 vim.api.nvim_create_autocmd("BufReadPost", {
-  group = augroup "last_loc",
+  group = augroup "last_position",
+  desc = "Jump to last cursor position when reopening files (excludes git commits)",
   callback = function()
-    local exclude = { "gitcommit" }
+    local exclude_filetypes = { "gitcommit" }
     local buf = vim.api.nvim_get_current_buf()
-    if vim.tbl_contains(exclude, vim.bo[buf].filetype) then
+
+    -- Skip for excluded filetypes
+    if vim.tbl_contains(exclude_filetypes, vim.bo[buf].filetype) then
       return
     end
-    local mark = vim.api.nvim_buf_get_mark(buf, '"')
-    local lcount = vim.api.nvim_buf_line_count(buf)
-    if mark[1] > 0 and mark[1] <= lcount then
-      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+
+    -- Get last cursor position from '"' mark
+    local last_pos = vim.api.nvim_buf_get_mark(buf, '"')
+    local line_count = vim.api.nvim_buf_line_count(buf)
+
+    -- Jump to position if valid
+    if last_pos[1] > 0 and last_pos[1] <= line_count then
+      pcall(vim.api.nvim_win_set_cursor, 0, last_pos)
     end
   end,
 })
 
--- close some filetypes with <q>
+-- Auto-create parent directories when saving files
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = augroup "auto_create_dir",
+  desc = "Automatically create parent directories when saving files",
+  callback = function(event)
+    -- Skip for URLs (like fugitive buffers)
+    if event.match:match "^%w%w+://" then
+      return
+    end
+
+    local file_path = vim.fn.resolve(event.match)
+    local parent_dir = vim.fn.fnamemodify(file_path, ":p:h")
+
+    -- Create parent directory if it doesn't exist
+    vim.fn.mkdir(parent_dir, "p")
+  end,
+})
+
+-- ============================================================================
+-- FILETYPE-SPECIFIC CONFIGURATIONS
+-- ============================================================================
+
+-- Allow quick closing of special buffer types with 'q' key
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup "close_with_q",
+  desc = "Enable quick closing with 'q' key for special buffer types",
   pattern = {
     "PlenaryTestPopup",
+    "checkhealth",
     "help",
     "lspinfo",
     "man",
+    "neotest-output",
+    "neotest-output-panel",
+    "neotest-summary",
     "notify",
     "qf",
     "spectre_panel",
     "startuptime",
     "tsplayground",
-    "neotest-output",
-    "checkhealth",
-    "neotest-summary",
-    "neotest-output-panel",
   },
   callback = function(event)
+    -- Make buffer not listed and add 'q' mapping to close
     vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+    vim.keymap.set("n", "q", "<cmd>close<cr>", {
+      buffer = event.buf,
+      silent = true,
+      desc = "Close buffer with q",
+    })
   end,
 })
 
--- wrap and check for spell in text filetypes
+-- Enable word wrap and spell checking for text-based files
 vim.api.nvim_create_autocmd("FileType", {
-  group = augroup "wrap_spell",
+  group = augroup "text_files",
+  desc = "Enable word wrap and spell checking for text-based files",
   pattern = { "gitcommit", "markdown" },
   callback = function()
     vim.opt_local.wrap = true
@@ -79,41 +131,12 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Auto create dir when saving a file, in case some intermediate directory does not exist
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  group = augroup "auto_create_dir",
-  callback = function(event)
-    if event.match:match "^%w%w+://" then
-      return
-    end
-    local file = vim.loop.fs_realpath(event.match) or event.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-  end,
-})
-
--- Create a global variable to store the initial directory when Neovim starts
-vim.g.initial_open_directory = nil
-
--- Capture the initial directory when Neovim starts and store it in the global variable
-vim.api.nvim_create_autocmd("VimEnter", {
+-- Set Handlebars files to use HTML syntax highlighting
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  group = augroup "handlebars_filetype",
+  desc = "Set Handlebars (.hbs) files to use HTML syntax highlighting",
+  pattern = "*.hbs",
   callback = function()
-    -- Check if Neovim was launched with a directory argument
-    local args = vim.v.argv
-    local last_arg = args[#args]
-
-    if last_arg and vim.fn.isdirectory(last_arg) == 1 then
-      -- If the last argument is a directory, save it
-      vim.g.initial_open_directory = last_arg
-    elseif last_arg and vim.fn.filereadable(last_arg) == 1 then
-      -- If the last argument is a file, save its parent directory
-      vim.g.initial_open_directory = vim.fn.fnamemodify(last_arg, ":h")
-    else
-      -- Otherwise, save the current working directory at startup
-      vim.g.initial_open_directory = vim.fn.getcwd()
-    end
+    vim.bo.filetype = "html"
   end,
-  group = vim.api.nvim_create_augroup("CaptureInitialDirectory", { clear = true }),
 })
-
-vim.cmd "autocmd BufRead,BufNewFile *.hbs set filetype=html"
-
