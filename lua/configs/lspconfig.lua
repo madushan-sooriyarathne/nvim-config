@@ -17,7 +17,7 @@ local servers = {
   "dockerls",
   "bashls",
   "jsonls",
-  "ltex",
+  "marksman",
   "postgres_lsp",
   -- "rust_analyzer",
   "sqlls",
@@ -110,18 +110,42 @@ vim.lsp.config("eslint", {
   settings = {
     workingDirectory = { mode = "auto" },
   },
-  on_attach = function()
+  on_attach = function(client, bufnr)
+    -- Auto-fix on save
     vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
       callback = function(event)
-        local client = vim.lsp.get_clients({ bufnr = event.buf, name = "eslint" })[1]
-        if client then
-          local diag = vim.diagnostic.get(event.buf, { namespace = vim.lsp.diagnostic.get_namespace(client.id) })
+        local eslint_client = vim.lsp.get_clients({ bufnr = event.buf, name = "eslint" })[1]
+        if eslint_client then
+          local diag = vim.diagnostic.get(event.buf, { namespace = vim.lsp.diagnostic.get_namespace(eslint_client.id) })
           if #diag > 0 then
             vim.cmd "EslintFixAll"
           end
         end
       end,
     })
+
+    -- ESLint keybindings for current buffer
+    local opts = { buffer = bufnr, silent = true }
+    vim.keymap.set("n", "<leader>lR", function()
+      pcall(function()
+        vim.cmd "LspRestart eslint"
+        vim.notify("ESLint server restarted", vim.log.levels.INFO)
+      end)
+    end, vim.tbl_extend("force", opts, { desc = "Restart ESLint server" }))
+
+    vim.keymap.set(
+      "n",
+      "<leader>lf",
+      "<cmd>EslintFixAll<cr>",
+      vim.tbl_extend("force", opts, { desc = "ESLint fix all" })
+    )
+
+    vim.keymap.set("n", "<leader>lr", function()
+      vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
+      vim.cmd "edit!"
+      vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
+    end, vim.tbl_extend("force", opts, { desc = "Refresh ESLint diagnostics" }))
   end,
 })
 
@@ -220,3 +244,44 @@ vim.lsp.config("yamlls", {
     },
   },
 })
+
+-- marksman (markdown)
+vim.lsp.config("marksman", {
+  filetypes = { "markdown" },
+})
+
+-- User commands for ESLint operations
+vim.api.nvim_create_user_command("EslintRestart", function()
+  pcall(function()
+    vim.cmd "LspRestart eslint"
+    vim.notify("ESLint server restarted", vim.log.levels.INFO)
+  end)
+end, { desc = "Restart ESLint server" })
+
+vim.api.nvim_create_user_command("EslintRefresh", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients { bufnr = bufnr, name = "eslint" }
+  if #clients > 0 then
+    local client = clients[1]
+    vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
+    vim.cmd "edit!"
+    vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
+  else
+    vim.notify("No ESLint client found for this buffer", vim.log.levels.WARN)
+  end
+end, { desc = "Refresh ESLint diagnostics for current buffer" })
+
+vim.api.nvim_create_user_command("EslintRestartAll", function()
+  local all_clients = vim.lsp.get_clients { name = "eslint" }
+  if #all_clients > 0 then
+    pcall(function()
+      vim.cmd "LspRestart eslint"
+      vim.schedule(function()
+        vim.diagnostic.reset()
+        vim.notify("ESLint server restarted and all diagnostics cleared", vim.log.levels.INFO)
+      end)
+    end)
+  else
+    vim.notify("No ESLint clients found", vim.log.levels.WARN)
+  end
+end, { desc = "Restart ESLint server and clear all diagnostics" })

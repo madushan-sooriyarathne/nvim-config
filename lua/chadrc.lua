@@ -47,6 +47,9 @@ M.ui = {
 
       -- go
       "gopls",
+
+      -- markdown
+      "marksman",
     },
   },
 }

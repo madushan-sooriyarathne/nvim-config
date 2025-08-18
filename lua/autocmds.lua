@@ -140,3 +140,38 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "html"
   end,
 })
+
+-- ============================================================================
+-- LSP & DIAGNOSTICS ENHANCEMENTS
+-- ============================================================================
+
+-- Auto-restart ESLint when TypeScript/JavaScript type definition files change
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+--   group = augroup "eslint_type_refresh",
+--   desc = "Auto-restart ESLint when type definition files change to refresh cross-file diagnostics",
+--   pattern = { "*.d.ts", "*.ts", "*.tsx", "types.ts", "types/**/*.ts" },
+--   callback = function()
+--     -- Small delay to let file changes settle
+--     vim.defer_fn(function()
+--       local eslint_clients = vim.lsp.get_clients { name = "eslint" }
+--       if #eslint_clients > 0 then
+--         -- Check if eslint config exists for this project
+--         local has_eslint_config = vim.fn.filereadable ".eslintrc.js" == 1
+--           or vim.fn.filereadable ".eslintrc.json" == 1
+--           or vim.fn.filereadable ".eslintrc.yml" == 1
+--           or vim.fn.filereadable ".eslintrc.yaml" == 1
+--           or vim.fn.filereadable "eslint.config.js" == 1
+--           or vim.fn.filereadable "eslint.config.mjs" == 1
+--           or vim.fn.filereadable "package.json" == 1
+--             and vim.fn.json_decode(vim.fn.readfile "package.json")[1].eslintConfig ~= nil
+--
+--         if has_eslint_config then
+--           pcall(function()
+--             vim.cmd "LspRestart eslint"
+--             vim.notify("ESLint restarted due to type file changes", vim.log.levels.INFO)
+--           end)
+--         end
+--       end
+--     end, 500)
+--   end,
+-- })
