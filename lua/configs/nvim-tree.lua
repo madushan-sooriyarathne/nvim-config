@@ -24,6 +24,7 @@ M.options = {
     },
     exclude = false,
   },
+  view = { adaptive_size = true },
   renderer = {
     highlight_git = true,
     icons = {
