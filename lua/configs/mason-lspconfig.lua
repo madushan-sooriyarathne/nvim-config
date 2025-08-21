@@ -4,10 +4,10 @@ M.options = {
   ensure_installed = {
     "lua_ls",
     "eslint",
-    "html_lsp",
+    "html",
     "cssls",
     "clangd",
-    "docker-language-server",
+    "dockerls",
     "bashls",
     "jsonls",
     "marksman",
