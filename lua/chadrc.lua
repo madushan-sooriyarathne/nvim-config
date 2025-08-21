@@ -5,52 +5,14 @@
 local highlights = require "highlights"
 
 ---@type ChadrcConfig
-local M = {}
+local options = {
 
-M.base46 = {
-  theme = "kanagawa",
+  base46 = {
+    theme = "kanagawa",
 
-  hl_override = highlights.override,
-  hl_add = highlights.add,
-}
-
-M.ui = {
-  mason = {
-    cmd = true,
-    pkgs = {
-      "lua-language-server",
-      "eslint-lsp",
-      "html-lsp",
-      "prettier",
-      "prettierd",
-      "stylua",
-      "shfmt",
-
-      -- web dev stuff
-      "cssls",
-      "html",
-      -- "svelte",
-      "tailwindcss",
-      "ts_ls",
-      "jsonls",
-      -- rust
-      -- "rust_analyzer",
-
-      -- sql
-      "sqlls",
-
-      -- docker
-      "dockerls",
-
-      --yaml
-      "yamlls",
-
-      -- go
-      "gopls",
-
-      -- markdown
-      "marksman",
-    },
+    hl_override = highlights.override,
+    hl_add = highlights.add,
   },
 }
-return M
+
+return options

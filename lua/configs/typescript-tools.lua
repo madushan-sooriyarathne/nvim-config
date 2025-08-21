@@ -16,37 +16,37 @@ M.options = {
     local opts = { buffer = bufnr, silent = true }
     vim.keymap.set(
       "n",
-      "<leader>lo",
+      "<leader>to",
       "<cmd>TSToolsOrganizeImports<cr>",
       vim.tbl_extend("force", opts, { desc = "Organize imports" })
     )
     vim.keymap.set(
       "n",
-      "<leader>lO",
+      "<leader>tO",
       "<cmd>TSToolsSortImports<cr>",
       vim.tbl_extend("force", opts, { desc = "Sort imports" })
     )
     vim.keymap.set(
       "n",
-      "<leader>lu",
+      "<leader>tu",
       "<cmd>TSToolsRemoveUnused<cr>",
       vim.tbl_extend("force", opts, { desc = "Remove unused statements" })
     )
     vim.keymap.set(
       "n",
-      "<leader>lz",
+      "<leader>tz",
       "<cmd>TSToolsGoToSourceDefinition<cr>",
       vim.tbl_extend("force", opts, { desc = "Go to source definition" })
     )
     vim.keymap.set(
       "n",
-      "<leader>lI",
+      "<leader>tI",
       "<cmd>TSToolsAddMissingImports<cr>",
       vim.tbl_extend("force", opts, { desc = "Add missing imports" })
     )
     vim.keymap.set(
       "n",
-      "<leader>lF",
+      "<leader>tF",
       "<cmd>TSToolsFixAll<cr>",
       vim.tbl_extend("force", opts, { desc = "Fix all issues" })
     )

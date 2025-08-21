@@ -21,6 +21,7 @@ return {
 
         "mason-org/mason-lspconfig.nvim",
         event = { "VeryLazy", "BufReadPre", "BufNewFile" },
+        opts = require("configs.mason-lspconfig").options,
         config = true,
       },
     },

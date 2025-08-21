@@ -9,19 +9,17 @@ local capabilities = configs.capabilities
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local servers = {
+
   "eslint",
   "html",
-  -- "denols",
   "cssls",
   "clangd",
   "dockerls",
   "bashls",
   "jsonls",
-  "marksman",
+  "rarkspan",
   "postgres_lsp",
-  -- "rust_analyzer",
   "sqlls",
-  -- "svelte",
   "tailwindcss",
   "ts_ls",
   "yamlls",
@@ -64,17 +62,6 @@ vim.lsp.config("luals", {
   },
 })
 
--- Rust
--- vim.lsp.config("rust_analyzer", {
---   settings = {
---     ["rust-analyzer"] = {
---       diagnostics = {
---         enable = false,
---       },
---     },
---   },
--- })
-
 -- Go
 vim.lsp.config("gopls", {
   cmd = { "gopls" },
@@ -91,19 +78,6 @@ vim.lsp.config("gopls", {
     },
   },
 })
-
--- Deno
--- vim.lsp.config("denols", {
---   on_attach = on_attach,
---   root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
--- })
-
--- Typescript
--- vim.lsp.config("ts_ls", {
---   on_attach = on_attach,
---   root_dir = lspconfig.util.root_pattern("turbo.json", "tsconfig.json", "jsconfig.json", "package.json"),
---   single_file_support = true,
--- })
 
 -- eslint
 vim.lsp.config("eslint", {

@@ -9,12 +9,35 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("nvchad_custom-" .. name, { clear = true })
 end
 
+local autocmd = vim.api.nvim_create_autocmd
+
 -- ============================================================================
 -- UI & VISUAL ENHANCEMENTS
 -- ============================================================================
 
+-- Dynamic terminal padding
+autocmd("VimEnter", {
+  command = ":silent !kitty @ set-spacing padding=0 margin=0",
+})
+
+autocmd("VimLeavePre", {
+  command = ":silent !kitty @ set-spacing padding=20 margin=10",
+})
+
 -- Highlight yanked text briefly for visual feedback
-vim.api.nvim_create_autocmd("TextYankPost", {
+autocmd("BufDelete", {
+  group = augroup "show_nvdash",
+  desc = "Show Nvdash when all buffers are closed",
+  callback = function()
+    local bufs = vim.t.bufs
+    if #bufs == 1 and vim.api.nvim_buf_get_name(bufs[1]) == "" then
+      vim.cmd "Nvdash"
+    end
+  end,
+})
+
+-- Highlight yanked text briefly for visual feedback
+autocmd("TextYankPost", {
   group = augroup "highlight_yank",
   desc = "Highlight yanked text briefly for visual feedback",
   callback = function()
@@ -23,7 +46,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Toggle theme automatically on Neovim startup
-vim.api.nvim_create_autocmd("VimEnter", {
+autocmd("VimEnter", {
   group = augroup "toggle_theme",
   desc = "Toggle theme on first load to apply custom theme settings",
   callback = function()
@@ -36,7 +59,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- ============================================================================
 
 -- Automatically resize splits when window is resized
-vim.api.nvim_create_autocmd("VimResized", {
+autocmd("VimResized", {
   group = augroup "resize_splits",
   desc = "Automatically resize splits when terminal window is resized",
   callback = function()
@@ -45,7 +68,7 @@ vim.api.nvim_create_autocmd("VimResized", {
 })
 
 -- Restore cursor to last position when reopening files
-vim.api.nvim_create_autocmd("BufReadPost", {
+autocmd("BufReadPost", {
   group = augroup "last_position",
   desc = "Jump to last cursor position when reopening files (excludes git commits)",
   callback = function()
@@ -69,7 +92,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- Auto-create parent directories when saving files
-vim.api.nvim_create_autocmd("BufWritePre", {
+autocmd("BufWritePre", {
   group = augroup "auto_create_dir",
   desc = "Automatically create parent directories when saving files",
   callback = function(event)
@@ -91,7 +114,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- ============================================================================
 
 -- Allow quick closing of special buffer types with 'q' key
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
   group = augroup "close_with_q",
   desc = "Enable quick closing with 'q' key for special buffer types",
   pattern = {
@@ -121,7 +144,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Enable word wrap and spell checking for text-based files
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
   group = augroup "text_files",
   desc = "Enable word wrap and spell checking for text-based files",
   pattern = { "gitcommit", "markdown" },
@@ -132,7 +155,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Set Handlebars files to use HTML syntax highlighting
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+autocmd({ "BufRead", "BufNewFile" }, {
   group = augroup "handlebars_filetype",
   desc = "Set Handlebars (.hbs) files to use HTML syntax highlighting",
   pattern = "*.hbs",
@@ -140,38 +163,3 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "html"
   end,
 })
-
--- ============================================================================
--- LSP & DIAGNOSTICS ENHANCEMENTS
--- ============================================================================
-
--- Auto-restart ESLint when TypeScript/JavaScript type definition files change
--- vim.api.nvim_create_autocmd("BufWritePost", {
---   group = augroup "eslint_type_refresh",
---   desc = "Auto-restart ESLint when type definition files change to refresh cross-file diagnostics",
---   pattern = { "*.d.ts", "*.ts", "*.tsx", "types.ts", "types/**/*.ts" },
---   callback = function()
---     -- Small delay to let file changes settle
---     vim.defer_fn(function()
---       local eslint_clients = vim.lsp.get_clients { name = "eslint" }
---       if #eslint_clients > 0 then
---         -- Check if eslint config exists for this project
---         local has_eslint_config = vim.fn.filereadable ".eslintrc.js" == 1
---           or vim.fn.filereadable ".eslintrc.json" == 1
---           or vim.fn.filereadable ".eslintrc.yml" == 1
---           or vim.fn.filereadable ".eslintrc.yaml" == 1
---           or vim.fn.filereadable "eslint.config.js" == 1
---           or vim.fn.filereadable "eslint.config.mjs" == 1
---           or vim.fn.filereadable "package.json" == 1
---             and vim.fn.json_decode(vim.fn.readfile "package.json")[1].eslintConfig ~= nil
---
---         if has_eslint_config then
---           pcall(function()
---             vim.cmd "LspRestart eslint"
---             vim.notify("ESLint restarted due to type file changes", vim.log.levels.INFO)
---           end)
---         end
---       end
---     end, 500)
---   end,
--- })

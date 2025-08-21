@@ -7,6 +7,7 @@ M.options = {
   git = {
     enable = true,
   },
+  view = { adaptive_size = true },
   actions = {
     change_dir = {
       enable = false,
