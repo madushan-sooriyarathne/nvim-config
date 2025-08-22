@@ -1,261 +1,226 @@
--- load defaults i.e lua_lsp
-local lspconfig = require "lspconfig"
-local configs = require "nvchad.configs.lspconfig"
-
-configs.defaults()
-local on_attach = configs.on_attach
-local on_init = configs.on_init
-local capabilities = configs.capabilities
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+require("nvchad.configs.lspconfig").defaults()
 
 local servers = {
-
-  "eslint",
-  "html",
-  "cssls",
-  "clangd",
-  "dockerls",
-  "bashls",
-  "jsonls",
-  "rarkspan",
-  "postgres_lsp",
-  "sqlls",
-  "tailwindcss",
-  "ts_ls",
-  "yamlls",
-  "gopls",
-  "luals",
-}
-
--- default setup for all servers
-vim.lsp.config("*", {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
-})
-
-vim.lsp.enable(servers)
-
--- Individual Server configuration
---
--- Lua
-vim.lsp.config("luals", {
-  cmd = { "lua-language-server" },
-  filetypes = { "lua" },
-  root_markers = { ".luarc.json", ".luarc.jsonc" },
-  settings = {
-    Lua = {
-      runtime = {
-        version = "LuaJIT",
-      },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
-
--- Go
-vim.lsp.config("gopls", {
-  cmd = { "gopls" },
-  filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  root_dir = lspconfig.util.root_pattern("go.mod", "go.work", ".git"),
-  settings = {
-    gopls = {
-      completeUnimported = true,
-      usePlaceholders = true,
-      staticcheck = true,
-      analyses = {
-        unusedparams = true,
-      },
-    },
-  },
-})
-
--- eslint
-vim.lsp.config("eslint", {
-  settings = {
-    workingDirectory = { mode = "auto" },
-  },
-  on_attach = function(client, bufnr)
-    -- Auto-fix on save
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      callback = function(event)
-        local eslint_client = vim.lsp.get_clients({ bufnr = event.buf, name = "eslint" })[1]
-        if eslint_client then
-          local diag = vim.diagnostic.get(event.buf, { namespace = vim.lsp.diagnostic.get_namespace(eslint_client.id) })
-          if #diag > 0 then
-            vim.cmd "EslintFixAll"
-          end
-        end
-      end,
-    })
-
-    -- ESLint keybindings for current buffer
-    local opts = { buffer = bufnr, silent = true }
-    vim.keymap.set("n", "<leader>lR", function()
-      pcall(function()
-        vim.cmd "LspRestart eslint"
-        vim.notify("ESLint server restarted", vim.log.levels.INFO)
-      end)
-    end, vim.tbl_extend("force", opts, { desc = "Restart ESLint server" }))
-
-    vim.keymap.set(
-      "n",
-      "<leader>lf",
-      "<cmd>EslintFixAll<cr>",
-      vim.tbl_extend("force", opts, { desc = "ESLint fix all" })
-    )
-
-    vim.keymap.set("n", "<leader>lr", function()
-      vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
-      vim.cmd "edit!"
-      vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
-    end, vim.tbl_extend("force", opts, { desc = "Refresh ESLint diagnostics" }))
-  end,
-})
-
--- cssls
-vim.lsp.config("cssls", {
-  settings = {
-    css = { validate = true, lint = {
-      unknownAtRules = "ignore",
-    } },
-    scss = { validate = true, lint = {
-      unknownAtRules = "ignore",
-    } },
-    less = { validate = true, lint = {
-      unknownAtRules = "ignore",
-    } },
-  },
-})
-
--- tailwindcss
-vim.lsp.config("tailwindcss", {
-  settings = {
-
-    filetypes_exclude = { "markdown" },
-    tailwindCSS = {
-      classAttributes = {
-        "class",
-        "className",
-        "class:list",
-        "classList",
-        "ngClass",
-      },
-      lint = {
-        cssConflict = "warning",
-        invalidApply = "error",
-        invalidScreen = "error",
-        invalidVariant = "error",
-        invalidConfigPath = "error",
-        invalidTailwindDirective = "error",
-        recommendedVariantOrder = "warning",
-        unknownAtRules = "ignore",
-      },
+  html = {},
+  eslint = {
+    settings = {
       experimental = {
-        classRegex = {
-          { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-          { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+        useFlatConfig = true,
+      },
+      codeActionOnSave = {
+        enable = true,
+        mode = "all",
+      },
+      problems = {
+        shortenToSingleLine = true,
+      },
+    },
+    on_attach = function(client, bufnr)
+      -- User commands for ESLint operations
+      vim.api.nvim_buf_create_user_command(0, "EslintRestart", function()
+        pcall(function()
+          vim.cmd "LspRestart eslint"
+          vim.notify("ESLint server restarted", vim.log.levels.INFO)
+        end)
+      end, { desc = "Restart ESLint server" })
+
+      vim.api.nvim_buf_create_user_command(0, "EslintRefresh", function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local clients = vim.lsp.get_clients { bufnr = bufnr, name = "eslint" }
+        if #clients > 0 then
+          local client = clients[1]
+          vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
+          vim.cmd "edit!"
+          vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
+        else
+          vim.notify("No ESLint client found for this buffer", vim.log.levels.WARN)
+        end
+      end, { desc = "Refresh ESLint diagnostics for current buffer" })
+
+      vim.api.nvim_buf_create_user_command(0, "EslintRestartAll", function()
+        local all_clients = vim.lsp.get_clients { name = "eslint" }
+        if #all_clients > 0 then
+          pcall(function()
+            vim.cmd "LspRestart eslint"
+            vim.schedule(function()
+              vim.diagnostic.reset()
+              vim.notify("ESLint server restarted and all diagnostics cleared", vim.log.levels.INFO)
+            end)
+          end)
+        else
+          vim.notify("No ESLint clients found", vim.log.levels.WARN)
+        end
+      end, { desc = "Restart ESLint server and clear all diagnostics" })
+      vim.api.nvim_buf_create_user_command(0, "LspEslintFixAll", function()
+        client:request_sync("workspace/executeCommand", {
+          command = "eslint.applyAllFixes",
+          arguments = {
+            {
+              uri = vim.uri_from_bufnr(bufnr),
+              version = lsp.util.buf_versions[bufnr],
+            },
+          },
+        }, nil, bufnr)
+      end, {})
+
+      -- Auto-fix on save
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function(event)
+          local eslint_client = vim.lsp.get_clients({ bufnr = event.buf, name = "eslint" })[1]
+          if eslint_client then
+            local diag =
+              vim.diagnostic.get(event.buf, { namespace = vim.lsp.diagnostic.get_namespace(eslint_client.id) })
+            if #diag > 0 then
+              vim.cmd "LspEslintFixAll"
+            end
+          end
+        end,
+      })
+
+      -- ESLint keybindings for current buffer
+      local opts = { buffer = bufnr, silent = true }
+      vim.keymap.set("n", "<leader>lR", function()
+        pcall(function()
+          vim.cmd "LspRestart eslint"
+          vim.notify("ESLint server restarted", vim.log.levels.INFO)
+        end)
+      end, vim.tbl_extend("force", opts, { desc = "Restart ESLint server" }))
+
+      vim.keymap.set(
+        "n",
+        "<leader>lf",
+        "<cmd>LspEslintFixAll<cr>",
+        vim.tbl_extend("force", opts, { desc = "ESLint fix all" })
+      )
+
+      vim.keymap.set("n", "<leader>lr", function()
+        vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
+        vim.cmd "edit!"
+        vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
+      end, vim.tbl_extend("force", opts, { desc = "Refresh ESLint diagnostics" }))
+    end,
+  },
+  cssls = {
+    settings = {
+      css = { validate = true, lint = {
+        unknownAtRules = "ignore",
+      } },
+      scss = { validate = true, lint = {
+        unknownAtRules = "ignore",
+      } },
+      less = { validate = true, lint = {
+        unknownAtRules = "ignore",
+      } },
+    },
+  },
+  tailwindcss = {
+    settings = {
+      filetypes_exclude = { "markdown" },
+      tailwindCSS = {
+        lint = {
+          cssConflict = "warning",
+          invalidApply = "error",
+          invalidScreen = "error",
+          invalidVariant = "error",
+          invalidConfigPath = "error",
+          invalidTailwindDirective = "error",
+          recommendedVariantOrder = "warning",
+          unknownAtRules = "ignore",
+        },
+        experimental = {
+          classRegex = {
+            { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+            { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+          },
         },
       },
     },
   },
-})
-
--- json
-vim.lsp.config("jsonls", {
-  settings = {
-    json = {
-      format = {
-        enable = true,
-      },
-      validate = { enable = true },
-    },
-  },
-})
-
--- yaml
-vim.lsp.config("yamlls", {
-
-  -- Have to add this for yamlls to understand that we support line folding
-  capabilities = {
-    textDocument = {
-      foldingRange = {
-        dynamicRegistration = false,
-        lineFoldingOnly = true,
+  ts_ls = {},
+  jsonls = {
+    settings = {
+      json = {
+        format = {
+          enable = true,
+        },
+        validate = { enable = true },
       },
     },
   },
-  -- lazy-load schemastore when needed
-  on_new_config = function(new_config)
-    new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
-    vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
-  end,
-  settings = {
-    redhat = { telemetry = { enabled = false } },
-    yaml = {
-      keyOrdering = false,
-      format = {
-        enable = true,
+  clangd = {},
+  bashls = {},
+  yamlls = {
+    -- Have to add this for yamlls to understand that we support line folding
+    capabilities = {
+      textDocument = {
+        foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true,
+        },
       },
-      validate = true,
-      schemaStore = {
-        -- Must disable built-in schemaStore support to use
-        -- schemas from SchemaStore.nvim plugin
-        enable = false,
-        -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-        url = "",
+    },
+    -- lazy-load schemastore when needed
+    on_new_config = function(new_config)
+      new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
+      vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
+    end,
+    settings = {
+      redhat = { telemetry = { enabled = false } },
+      yaml = {
+        keyOrdering = false,
+        format = {
+          enable = true,
+        },
+        validate = true,
+        schemaStore = {
+          -- Must disable built-in schemaStore support to use
+          -- schemas from SchemaStore.nvim plugin
+          enable = false,
+          -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+          url = "",
+        },
       },
     },
   },
-})
+  dockerls = {},
+  marksman = {},
+  postgres_lsp = {},
+  sqlls = {},
+  gopls = {
+    settings = {
+      gopls = {
+        completeUnimported = true,
+        usePlaceholders = true,
+        staticcheck = true,
+        analyses = {
+          unusedparams = true,
+        },
+      },
+    },
+  },
+  lua_ls = {
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+        },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+        },
+        telemetry = {
+          enable = false,
+        },
+      },
+    },
+  },
+}
 
--- marksman (markdown)
-vim.lsp.config("marksman", {
-  filetypes = { "markdown" },
-})
-
--- User commands for ESLint operations
-vim.api.nvim_create_user_command("EslintRestart", function()
-  pcall(function()
-    vim.cmd "LspRestart eslint"
-    vim.notify("ESLint server restarted", vim.log.levels.INFO)
-  end)
-end, { desc = "Restart ESLint server" })
-
-vim.api.nvim_create_user_command("EslintRefresh", function()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local clients = vim.lsp.get_clients { bufnr = bufnr, name = "eslint" }
-  if #clients > 0 then
-    local client = clients[1]
-    vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
-    vim.cmd "edit!"
-    vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
-  else
-    vim.notify("No ESLint client found for this buffer", vim.log.levels.WARN)
-  end
-end, { desc = "Refresh ESLint diagnostics for current buffer" })
-
-vim.api.nvim_create_user_command("EslintRestartAll", function()
-  local all_clients = vim.lsp.get_clients { name = "eslint" }
-  if #all_clients > 0 then
-    pcall(function()
-      vim.cmd "LspRestart eslint"
-      vim.schedule(function()
-        vim.diagnostic.reset()
-        vim.notify("ESLint server restarted and all diagnostics cleared", vim.log.levels.INFO)
-      end)
-    end)
-  else
-    vim.notify("No ESLint clients found", vim.log.levels.WARN)
-  end
-end, { desc = "Restart ESLint server and clear all diagnostics" })
+for name, opts in pairs(servers) do
+  vim.lsp.enable(name)
+  vim.lsp.config(name, opts)
+end
