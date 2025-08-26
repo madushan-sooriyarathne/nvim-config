@@ -9,6 +9,7 @@ M.options = {
   ensure_installed = {
     "lua_ls",
     "eslint",
+    "biome",
     "html",
     "cssls",
     "clangd",
