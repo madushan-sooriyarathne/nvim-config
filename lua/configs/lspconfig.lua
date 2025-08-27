@@ -18,14 +18,14 @@ local servers = {
     },
     on_attach = function(client, bufnr)
       -- User commands for ESLint operations
-      vim.api.nvim_buf_create_user_command(0, "EslintRestart", function()
+      vim.api.nvim_buf_create_user_command(bufnr, "EslintRestart", function()
         pcall(function()
           vim.cmd "LspRestart eslint"
           vim.notify("ESLint server restarted", vim.log.levels.INFO)
         end)
       end, { desc = "Restart ESLint server" })
 
-      vim.api.nvim_buf_create_user_command(0, "EslintRefresh", function()
+      vim.api.nvim_buf_create_user_command(bufnr, "EslintRefresh", function()
         local clients = vim.lsp.get_clients { bufnr = bufnr, name = "eslint" }
         if #clients > 0 then
           local eslintClient = clients[1]
@@ -37,7 +37,7 @@ local servers = {
         end
       end, { desc = "Refresh ESLint diagnostics for current buffer" })
 
-      vim.api.nvim_buf_create_user_command(0, "EslintRestartAll", function()
+      vim.api.nvim_buf_create_user_command(bufnr, "EslintRestartAll", function()
         local all_clients = vim.lsp.get_clients { name = "eslint" }
         if #all_clients > 0 then
           pcall(function()
@@ -51,7 +51,7 @@ local servers = {
           vim.notify("No ESLint clients found", vim.log.levels.WARN)
         end
       end, { desc = "Restart ESLint server and clear all diagnostics" })
-      vim.api.nvim_buf_create_user_command(0, "LspEslintFixAll", function()
+      vim.api.nvim_buf_create_user_command(bufnr, "LspEslintFixAll", function()
         client:request_sync("workspace/executeCommand", {
           command = "eslint.applyAllFixes",
           arguments = {
@@ -80,26 +80,6 @@ local servers = {
       })
 
       -- ESLint keybindings for current buffer
-      local opts = { buffer = bufnr, silent = true }
-      vim.keymap.set("n", "<leader>cR", function()
-        pcall(function()
-          vim.cmd "LspRestart eslint"
-          vim.notify("ESLint server restarted", vim.log.levels.INFO)
-        end)
-      end, vim.tbl_extend("force", opts, { desc = "Restart ESLint server" }))
-
-      vim.keymap.set(
-        "n",
-        "<leader>cf",
-        "<cmd>LspEslintFixAll<cr>",
-        vim.tbl_extend("force", opts, { desc = "ESLint fix all" })
-      )
-
-      vim.keymap.set("n", "<leader>r", function()
-        vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
-        vim.cmd "edit!"
-        vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
-      end, vim.tbl_extend("force", opts, { desc = "Refresh ESLint diagnostics" }))
     end,
   },
   cssls = {

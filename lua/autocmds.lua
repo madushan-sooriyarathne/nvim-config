@@ -109,6 +109,44 @@ autocmd("BufWritePre", {
   end,
 })
 
+-- Refresh LSP diagnostics on file save for TypeScript/JavaScript files
+autocmd("BufWritePost", {
+  group = augroup "refresh_diagnostics",
+  desc = "Refresh LSP diagnostics after saving TS/JS files",
+  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+  callback = function(event)
+    -- Small delay to ensure file is fully written
+    vim.defer_fn(function()
+      -- Clear existing diagnostics for this buffer
+      vim.diagnostic.reset(nil, event.buf)
+
+      -- Force LSP clients to re-analyze the buffer
+      local clients = vim.lsp.get_clients { bufnr = event.buf }
+      for _, client in ipairs(clients) do
+        -- Only send didSave to clients that support it
+        if client.supports_method "textDocument/didSave" then
+          client.notify("textDocument/didSave", {
+            textDocument = { uri = vim.uri_from_bufnr(event.buf) },
+          })
+        end
+
+        -- Force diagnostic refresh by sending didChange
+        if client.supports_method "textDocument/didChange" then
+          local lines = vim.api.nvim_buf_get_lines(event.buf, 0, -1, false)
+          local content = table.concat(lines, "\n")
+          client.notify("textDocument/didChange", {
+            textDocument = {
+              uri = vim.uri_from_bufnr(event.buf),
+              version = vim.lsp.util.buf_versions[event.buf] or 0,
+            },
+            contentChanges = { { text = content } },
+          })
+        end
+      end
+    end, 100) -- 100ms delay
+  end,
+})
+
 -- ============================================================================
 -- FILETYPE-SPECIFIC CONFIGURATIONS
 -- ============================================================================

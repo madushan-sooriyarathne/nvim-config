@@ -46,6 +46,22 @@ map(
 -- Diagnostics
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 
+-- eslint
+map("n", "<leader>cR", function()
+  pcall(function()
+    vim.cmd "LspRestart eslint"
+    vim.notify("ESLint server restarted", vim.log.levels.INFO)
+  end)
+end, { desc = "Restart ESLint server" })
+
+map("n", "<leader>cf", "<cmd>LspEslintFixAll<cr>", { desc = "ESLint fix all" })
+
+-- map("n", "<leader>r", function()
+--   vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), bufnr)
+--   vim.cmd "edit!"
+--   vim.notify("ESLint diagnostics refreshed", vim.log.levels.INFO)
+-- end, { desc = "Refresh ESLint diagnostics" })
+
 -- File Operations
 map("n", "<leader>fn", "<cmd>enew<CR>", { desc = "New file" })
 
